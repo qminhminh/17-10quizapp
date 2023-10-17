@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "306452440637",
+    "project_id": "thutext-2f1a9",
+    "storage_bucket": "thutext-2f1a9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:306452440637:android:bd4dd71b167a9aa3b42c54",
+        "android_client_info": {
+          "package_name": "com.example.thutext"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwj9730uqk0MoesrFSCydIRc5TgaO0m5M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
