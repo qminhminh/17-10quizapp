@@ -17,20 +17,15 @@ class DesGVQesCard extends StatefulWidget {
 }
 
 class _DesGVQesCardState extends State<DesGVQesCard> {
-  final subjectTitleController = TextEditingController();
-  final timeController = TextEditingController();
-  final descriptionTitleController = TextEditingController();
-  final countquestionController = TextEditingController();
-  final quesionController = TextEditingController();
-  final option1Controller = TextEditingController();
-  final option2Controller = TextEditingController();
-  final option3Controller = TextEditingController();
-  final option4Controller = TextEditingController();
-  final optioncorrectController = TextEditingController();
-  final subjectcodeController = TextEditingController();
-  final timetextController = TextEditingController();
-  final ourController = TextEditingController();
-  final minusController = TextEditingController();
+
+  String namesubject= '';
+  String mamh= '';
+  String timestart= '';
+  String descript = '';
+  String datelambai = '';
+  String socauhoi = '';
+  String gio= '';
+  String phut= '';
   String? _image;
 
   @override
@@ -104,7 +99,7 @@ class _DesGVQesCardState extends State<DesGVQesCard> {
                    ),
                  ),
                ),
-               SizedBox(width: 250,),
+               SizedBox(width: 100,),
                PopupMenuButton(
                    onSelected: (value){
                      if(value == 'edit'){
@@ -270,101 +265,236 @@ class _DesGVQesCardState extends State<DesGVQesCard> {
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
-                  if (subjectTitleController.text.isNotEmpty &&
-                      subjectcodeController.text.isNotEmpty &&
-                      countquestionController.text.isNotEmpty &&
-                      timeController.text.isNotEmpty) {
-                    // Thực hiện các thao tác khi nhấn nút "Cập nhật"
-                    // APIs.createDescripton(...);
-                    APIs.userUpdateDesCriptionGV(descriptionTitleController.text, countquestionController.text, subjectcodeController.text, timeController.text,subjectTitleController.text,timetextController.text,ourController.text,minusController.text);
-                    Navigator.pop(context);
-                    Dialogs.showSnacker(context, 'Cập nhật thành công ');
-                  }
+
+                   if(widget.model != null){
+                     Navigator.pop(context);
+                   }
+                   else{
+                     Dialogs.showSnacker(context, 'false');
+                   }
+                   APIs.userUpdateDesCriptionGV(descript == '' ? widget.model.description : descript, socauhoi == '' ? widget.model.countQues : socauhoi, mamh == '' ? widget.model.subjectcode : mamh, timestart == '' ? widget.model.timeQues : timestart,namesubject == '' ? widget.model.namesubject : namesubject,datelambai == '' ? widget.model.timetext : datelambai,gio == '' ? widget.model.our : gio,phut == '' ? widget.model.minus : phut);
+
+                   setState(() {
+                     descript = '';
+                     socauhoi = '';
+                     mamh = '';
+                     timestart = '';
+                     namesubject = '';
+                     datelambai = '';
+                     gio ='';
+                     phut ='';
+                   });
+                   Dialogs.showSnacker(context, 'Cập nhật thành công');
                 },
                 child: Text('Cập nhật'),
               ),
-              _buildInputField(
-                label: 'Tên môn học:',
-                controller: subjectTitleController,
-                hint: 'vd: hóa học,..',
-              ),
-              _buildInputField(
-                label: 'Mã môn học:',
-                controller: subjectcodeController,
-                hint: 'vd: 300,..',
-              ),
-              _buildInputField(
-                label: 'Thời gian:',
-                controller: timeController,
-                hint: 'vd: 300,..',
-              ),
-              _buildInputField(
-                label: 'Mô tả thêm:',
-                controller: descriptionTitleController,
-                hint: 'vd: ,..',
-              ),
-              _buildInputField(
-                label: 'Ngày làm bài:',
-                controller: timetextController,
-                hint: 'vd: ,..',
-              ),
-              _buildInputField(
-                label: 'Số câu hỏi:',
-                controller: countquestionController,
-                hint: 'vd: 5,..',
-              ),
-              _buildInputField(
-                label: 'Giờ:',
-                controller: ourController,
-                hint: 'vd: 5,..',
-              ),
-              _buildInputField(
-                label: 'Phút:',
-                controller: minusController,
-                hint: 'vd: 5,..',
+
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Text(
+                      'Tên môn học:',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Expanded(
+                      child: TextFormField(
+
+                        onChanged: (val)=> namesubject = val ?? '',
+                        validator: (val) => val != null && val.isNotEmpty ? null : 'Required Field',
+                        initialValue: widget.model.namesubject,
+                        decoration: InputDecoration(
+                          hintText: 'eg. Toan',
+                        ),
+                      ),
+                    ),
+
+                  ],
+                ),
               ),
 
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Text(
+                      'Mã môn học:',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Expanded(
+                      child: TextFormField(
+                        onChanged: (val) => mamh = val ?? '',
+                        validator: (val)=>val!=null&&val.isNotEmpty? null : 'Required Field',
+                        initialValue: widget.model.subjectcode,
+                        decoration: InputDecoration(
+                          hintText: 'eg. 1234',
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Text(
+                      'Thời gian:',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Expanded(
+                      child: TextFormField(
+                        onChanged: (val) => timestart = val ?? '',
+                        validator: (val)=>val!=null&&val.isNotEmpty? null:'Required Field',
+                        initialValue: widget.model.timeQues,
+                        decoration: InputDecoration(
+                          hintText: 'eg. 15 phut',
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Text(
+                      'Mô tả thêm:',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Expanded(
+                      child: TextFormField(
+                        onChanged: (val) =>descript = val ?? '',
+                        validator: (val)=> val!=null&&val.isNotEmpty? null:'Required Field',
+                        initialValue: widget.model.description,
+                        decoration: InputDecoration(
+                          hintText: 'eg. Mô tả ',
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Text(
+                      'Ngày làm bài:',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Expanded(
+                      child: TextFormField(
+                        onChanged: (val) => datelambai = val ?? '',
+                        validator: (val)=> val!=null&&val.isNotEmpty? null:'Required Field',
+                        initialValue: widget.model.timetext,
+                        decoration: InputDecoration(
+                          hintText: 'eg. 12/10/2023',
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Text(
+                      'Số câu hỏi:',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Expanded(
+                      child: TextFormField(
+                        onChanged: (val) => socauhoi = val ?? '',
+                        validator: (val)=> val!=null&&val.isNotEmpty? null:'Required Field',
+                        initialValue: widget.model.countQues,
+                        decoration: InputDecoration(
+                          hintText: 'eg. 5',
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Text(
+                      'Giờ:',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Expanded(
+                      child: TextFormField(
+                        onChanged: (val) => gio = val ?? '',
+                        validator: (val)=> val!=null&&val.isNotEmpty? null:'Required Field',
+                        initialValue: widget.model.our,
+                        decoration: InputDecoration(
+                          hintText: 'eg. 5 gio',
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Text(
+                      'Phút:',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Expanded(
+                      child: TextFormField(
+                        onChanged: (val) => phut = val ?? '',
+                        validator: (val)=> val!=null&&val.isNotEmpty? null:'Required Field',
+                        initialValue: widget.model.minus,
+                        decoration: InputDecoration(
+                          hintText: 'eg. 5 gio',
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
 
             ],
           ),
         );
       },
-    );
-  }
-
-  Widget _buildInputField({
-    required String label,
-    required TextEditingController controller,
-    required String hint,
-  }) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
-        children: [
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          Expanded(
-            child: TextFormField(
-              controller: controller,
-              decoration: InputDecoration(
-                labelText: hint,
-                hintText: 'Nhập...',
-              ),
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Vui lòng nhập thông tin';
-                }
-                return null;
-              },
-            ),
-          ),
-        ],
-      ),
     );
   }
 
