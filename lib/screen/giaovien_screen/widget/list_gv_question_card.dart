@@ -16,12 +16,13 @@ class QuestionCardGVScreen extends StatefulWidget {
 class _QuestionCardScreenState extends State<QuestionCardGVScreen> {
   String selectedAnswer='';
   int count = 0;
-  final quesionController = TextEditingController();
-  final option1Controller = TextEditingController();
-  final option2Controller = TextEditingController();
-  final option3Controller = TextEditingController();
-  final option4Controller = TextEditingController();
-  final optioncorrectController = TextEditingController();
+  String cauhoi ='';
+  String cautraloi1 ='';
+  String cautraloi2 ='';
+  String cautraloi3 ='';
+  String cautraloi4 ='';
+  String cautraloidung ='';
+
   // Câu trả lời đúng
 
 
@@ -230,50 +231,184 @@ class _QuestionCardScreenState extends State<QuestionCardGVScreen> {
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
-                  if(option1Controller.text !=null && option2Controller.text !=null && option3Controller.text !=null && option4Controller.text !=null&& optioncorrectController.text !=null && quesionController.text != null){
-                   APIs.userUpdateQuestionnGV(widget.model.subjectcode, widget.model.time, quesionController.text, option1Controller.text, option2Controller.text, option3Controller.text, option4Controller.text, optioncorrectController.text);
-                    Dialogs.showSnacker(context, 'Thêm câu hỏi thành công ');
-                    option1Controller.text='';
-                    option2Controller.text='';
-                    option3Controller.text='';
-                    option4Controller.text='';
-                    optioncorrectController.text ='';
-                    quesionController.text ='';
+                  if(widget.model != null){
+                   APIs.userUpdateQuestionnGV(widget.model.subjectcode, widget.model.time, cauhoi == ''? widget.model.question : cauhoi, cautraloi1 == '' ? widget.model.option1 : cautraloi1,cautraloi2 == '' ? widget.model.option2 : cautraloi2 ,cautraloi3 == '' ? widget.model.option3 : cautraloi3,cautraloi4 == '' ? widget.model.option4 : cautraloi4, cautraloidung == '' ? widget.model.optioncorrect : cautraloidung);
+                    Dialogs.showSnacker(context, 'Sua câu hỏi thành công ');
+                    setState(() {
+                      cauhoi = '';
+                      cautraloi1 ='';
+                      cautraloi2 ='';
+                      cautraloi3='';
+                      cautraloi4='';
+                      cautraloidung='';
+                    });
+                     Navigator.pop(context);
                   }
                 },
                 child: Text('Cập nhật'),
               ),
-              _buildInputField(
-                label: 'Nhập câu hỏi:',
-                controller: quesionController,
-                hint: 'vd: hóa học,..',
-              ),
-              _buildInputField(
-                label: 'Đáp án 1:',
-                controller: option1Controller,
-                hint: 'vd: ,..',
-              ),
-              _buildInputField(
-                label: 'Đáp án 2:',
-                controller: option2Controller,
-                hint: 'vd: ,..',
-              ),
-              _buildInputField(
-                label: 'Đáp án 3:',
-                controller: option3Controller,
-                hint: 'vd: ,..',
-              ),
-              _buildInputField(
-                label: 'Đáp án 4:',
-                controller: option4Controller,
-                hint: 'vd: ,..',
-              ),
-              _buildInputField(
-                label: 'Đáp án đúng:',
-                controller: optioncorrectController,
-                hint: 'vd: 5,..',
+
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Text(
+                      'Nhập câu hỏi:',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Expanded(
+                      child: TextFormField(
+
+                        onChanged: (val)=> cauhoi = val ?? '',
+                        validator: (val) => val != null && val.isNotEmpty ? null : 'Required Field',
+                        initialValue: widget.model.question,
+                        decoration: InputDecoration(
+                          hintText: 'eg. Câu hỏi là gì?',
+                        ),
+                      ),
+                    ),
+
+                  ],
+                ),
               ),
 
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Text(
+                      'Đáp án 1:',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Expanded(
+                      child: TextFormField(
+                        textAlign: TextAlign.center,
+                        onChanged: (val)=> cautraloi1 = val ?? '',
+                        validator: (val) => val != null && val.isNotEmpty ? null : 'Required Field',
+                        initialValue: widget.model.option1,
+                        decoration: InputDecoration(
+                          hintText: 'eg. Đáp án 1',
+                        ),
+                      ),
+                    ),
+
+                  ],
+                ),
+              ),
+
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Text(
+                      'Đáp án 2:',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Expanded(
+                      child: TextFormField(
+                        textAlign: TextAlign.center,
+                        onChanged: (val)=> cautraloi2 = val ?? '',
+                        validator: (val) => val != null && val.isNotEmpty ? null : 'Required Field',
+                        initialValue: widget.model.option2,
+                        decoration: InputDecoration(
+                          hintText: 'eg.Đáp án 2',
+                        ),
+                      ),
+                    ),
+
+                  ],
+                ),
+              ),
+
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Text(
+                      'Đáp án 3:',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Expanded(
+                      child: TextFormField(
+                        textAlign: TextAlign.center,
+                        onChanged: (val)=> cautraloi3 = val ?? '',
+                        validator: (val) => val != null && val.isNotEmpty ? null : 'Required Field',
+                        initialValue: widget.model.option3,
+                        decoration: InputDecoration(
+                          hintText: 'eg. Đáp án 3',
+                        ),
+                      ),
+                    ),
+
+                  ],
+                ),
+              ),
+
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Text(
+                      'Đáp án 4:',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Expanded(
+                      child: TextFormField(
+                        textAlign: TextAlign.center,
+                        onChanged: (val)=> cautraloi4 = val ?? '',
+                        validator: (val) => val != null && val.isNotEmpty ? null : 'Required Field',
+                        initialValue: widget.model.option4,
+                        decoration: InputDecoration(
+                          hintText: 'eg. Đáp án 4:',
+                        ),
+                      ),
+                    ),
+
+                  ],
+                ),
+              ),
+
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Text(
+                      'Đáp án đúng:',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Expanded(
+                      child: TextFormField(
+                        textAlign: TextAlign.center,
+                        onChanged: (val)=> cautraloidung = val ?? '',
+                        validator: (val) => val != null && val.isNotEmpty ? null : 'Required Field',
+                        initialValue: widget.model.optioncorrect,
+                        decoration: InputDecoration(
+                          hintText: 'eg. Đáp án đúng',
+                        ),
+                      ),
+                    ),
+
+                  ],
+                ),
+              ),
             ],
           ),
         );
@@ -281,39 +416,5 @@ class _QuestionCardScreenState extends State<QuestionCardGVScreen> {
     );
   }
 
-  Widget _buildInputField({
-    required String label,
-    required TextEditingController controller,
-    required String hint,
-  }) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
-        children: [
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          Expanded(
-            child: TextFormField(
-              controller: controller,
-              decoration: InputDecoration(
-                labelText: hint,
-                hintText: 'Nhập...',
-              ),
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Vui lòng nhập thông tin';
-                }
-                return null;
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+
 }
