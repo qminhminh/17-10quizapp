@@ -39,7 +39,7 @@ class APIs{
           pushtoken: '',
           isOnline: false
       );
-      return await firestore.collection("users").doc(auth.currentUser!.uid).set(userModel.toJson());
+     await firestore.collection("users").doc(auth.currentUser!.uid).set(userModel.toJson());
 
     }
      catch(e){

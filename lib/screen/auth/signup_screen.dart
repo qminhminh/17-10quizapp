@@ -17,7 +17,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   var textEmailController = TextEditingController();
   var textPasswordController = TextEditingController();
 
-  Future<UserCredential?> regiterEmailandPassword() async{
+  Future<UserCredential?> registerEmailAndPassword() async{
     try {
       return await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: textEmailController.text,
@@ -137,32 +137,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
               child: Center(
                 child: InkWell(
                   onTap: () async {
-                    String email = textEmailController.text;
+                    final userCredential = await registerEmailAndPassword();
+                    if (userCredential != null) {
+                      // Registration was successful
+                      String email = textEmailController.text;
 
-                    if(email.contains('hs')){
-                      regiterEmailandPassword();
-                      APIs.createUser(textEmailController.text, 0);
+                      if (email.contains('hs')) {
+                        // You can add additional logic here for different types of users
+                        APIs.createUser(email, 0);
+                      } else if (email.contains('gv')) {
+                        APIs.createUser(email, 1);
+                      } else if (email.contains('qt')) {
+                        APIs.createUser(email, 2);
+                      }
+
                       Navigator.push(context, MaterialPageRoute(builder: (_) => LoginScreen()));
-                      Dialogs.showSnacker(context, 'Đăng ký tài khoản thành công');
-                      Dialogs.showSnacker(context, 'out ra ');
+                      Dialogs.showSnacker(context, 'Registration successful.');
                     }
-                    else if(email.contains('gv')){
-                      regiterEmailandPassword();
-                      APIs.createUser(textEmailController.text, 1);
-                      Navigator.push(context, MaterialPageRoute(builder: (_) => LoginScreen()));
-                      Dialogs.showSnacker(context, 'Đăng ký tài khoản thành công');
-
-                      Dialogs.showSnacker(context, 'out ra ');
-                    }
-                    else if(email.contains('qt')){
-                      regiterEmailandPassword();
-                      APIs.createUser(textEmailController.text, 2);
-                      Navigator.push(context, MaterialPageRoute(builder: (_) => LoginScreen()));
-                      Dialogs.showSnacker(context, 'Đăng ký tài khoản thành công');
-                      Dialogs.showSnacker(context, 'out ra ');
-                    }
-
-
                   },
                   child: Text(
                     'Đăng ký',
