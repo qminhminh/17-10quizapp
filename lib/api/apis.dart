@@ -1,21 +1,29 @@
 
+import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:thutext/models/giao_vien/create_description_model.dart';
 import 'package:thutext/models/giao_vien/create_question_model.dart';
 import 'package:thutext/models/hoc_sinh/score_model.dart';
+import 'package:thutext/models/notice_model.dart';
 import 'package:thutext/models/user_model.dart';
+import 'package:http/http.dart' as http;
+
+import '../models/message.dart';
 
 
 class APIs{
   static FirebaseAuth auth = FirebaseAuth.instance;
   static FirebaseFirestore firestore = FirebaseFirestore.instance;
   static FirebaseStorage firebaseStorage = FirebaseStorage.instance;
+  static FirebaseMessaging fmessaging = FirebaseMessaging.instance;
   static User get user => auth.currentUser!;
   static late CreateDescriptMode medes;
+  static late UserModel me;
 
 
   // tạo tài khoản cho người dùng
@@ -26,7 +34,10 @@ class APIs{
           name: "",
           image: "",
           email: email,
-          checkuser: a
+          checkuser: a,
+          about: '',
+          pushtoken: '',
+          isOnline: false
       );
       return await firestore.collection("users").doc(auth.currentUser!.uid).set(userModel.toJson());
 
@@ -38,6 +49,51 @@ class APIs{
 
   }
 
+  // tạo tài khoản cho người dùng
+  static Future<void> createUserNotice(String email, int a) async {
+    try{
+      final userModel = UserModel(
+          id: auth.currentUser!.uid,
+          name: "",
+          image: "",
+          email: email,
+          checkuser: a,
+          about: '',
+          pushtoken: '',
+          isOnline: false
+      );
+      return await firestore.collection("users").doc(auth.currentUser!.uid).set(userModel.toJson());
+
+    }
+    catch(e){
+      print('$e');
+      return null;
+    }
+
+  }
+
+
+  static Future<bool> addChatUserChat(String email) async{
+    final data= await firestore.collection('users').where('email',isEqualTo: email).get();
+
+    if(data.docs.isNotEmpty && data.docs.first.id != user.uid ){
+
+      await firestore.collection('users')
+          .doc(user.uid)
+          .collection('chat')
+          .doc(data.docs.first.id)
+          .set({});
+
+      await firestore.collection('users')
+          .doc(data.docs.first.id)
+          .collection('chat')
+          .doc(user.uid)
+          .set({});
+      return true;
+    }else{
+      return false;
+    }
+  }
 
   // thêm sinh viên cho giáo viên
   static Future<void> addChatUser(List<String> emailHS, String emailGV, String mahp) async{
@@ -79,7 +135,115 @@ class APIs{
     }
 
   }
+  // get only last message of a specific chat
+  static Stream<QuerySnapshot<Map<String,dynamic>>> getLastMessages(UserModel user){
+    return firestore.collection('chats/${getConvertsationID(user.id)}/messages/')
+        .orderBy('sent',descending: true)
+        .limit(1).snapshots();
+  }
+  static String getConvertsationID(String id) => user.uid.hashCode<=id.hashCode
+      ? '${user.uid}_$id' : '${id}_${user.uid}';
+  // for getting all users from firebase
+  static Stream<QuerySnapshot<Map<String,dynamic>>> getAllUser(List<String> userIds){
 
+    return firestore.collection('users')
+        .where('id',whereIn: userIds)
+        .snapshots();
+  }
+
+  static Stream<QuerySnapshot<Map<String,dynamic>>> getAllNOticeUser(List<String> userIds){
+
+    return firestore.collection('notice')
+        .where('id',whereIn: userIds)
+        .snapshots();
+  }
+  static Stream<QuerySnapshot<Map<String,dynamic>>> getAllMessages(UserModel user){
+    return firestore
+        .collection('chats/${getConvertsationID(user.id)}/messages/')
+        .orderBy('sent',descending: true)
+        .snapshots();
+  }
+  // delete messgae
+  static Future<void> gedeleteMessa(Message message) async{
+    await firestore.collection('chats/${getConvertsationID(message.toId)}/messages/')
+        .doc(message.sent)
+        .delete();
+    if(message.type==Type.image)
+      firebaseStorage.refFromURL(message.msg).delete();
+  }
+  // update mess
+  static Future<void> UpdateMessa(Message message, String updateMsg) async{
+    await firestore.collection('chats/${getConvertsationID(message.toId)}/messages/')
+        .doc(message.sent)
+        .update({"msg":updateMsg});
+  }
+  // update read sttus of messgae
+  static Future<void> updateMessageReadStatus(Message message) async{
+    firestore.collection('chats/${getConvertsationID(message.fromId)}/messages/')
+        .doc(message.sent)
+        .update({'read':DateTime.now().millisecondsSinceEpoch.toString()});
+  }
+
+  // for getting specific user infoau
+  static Stream<QuerySnapshot<Map<String,dynamic>>> getUserInfo(UserModel chuser){
+    return firestore
+        .collection('users')
+        .where('id',isEqualTo: chuser.id)
+        .snapshots();
+  }
+  // send chat img
+  static Future<void> sendChatImage(UserModel chatUser,File file) async{
+    // getting image file extension
+    final ext =file.path.split('.').last;
+
+    //storage file ref with path
+    final ref=  firebaseStorage.ref().child('images/${getConvertsationID(chatUser.id)}/${DateTime.now().millisecondsSinceEpoch}.$ext');
+    await ref.putFile(file,SettableMetadata(contentType: 'image/$ext')).then((p0) {
+
+    });
+
+    //update iamge in firebase
+    final imagUrl= await ref.getDownloadURL();
+    await sendMessage(chatUser, imagUrl, Type.image);
+  }
+  // for update uer
+  static Future<void> sendFirstMessage(UserModel chatUser,String msg,Type type) async{
+    await firestore.collection('users').doc(chatUser.id).
+    collection('chat')
+        .doc(user.uid)
+        .set({}).then((value) => sendMessage(chatUser, msg, type));
+  }
+
+  // for sending message
+  static Future<void> sendMessage(UserModel chatuser, String msg,Type type) async{
+
+    // message time
+    final time=DateTime.now().millisecondsSinceEpoch.toString();
+
+    // messgae to send
+    final Message message=Message(toId: chatuser.id, msg: msg, read: '', type: type, fromId: user.uid, sent: time);
+
+    final ref=firestore.collection('chats/${getConvertsationID(chatuser.id)}/messages/');
+    await ref.doc(time).set(message.toJson()).then((value) => sendPudNOtification(chatuser, type ==Type.text ? msg :'img'));
+  }
+
+  static Stream<QuerySnapshot<Map<String,dynamic>>> getChatId(){
+    return firestore.collection('users')
+        .doc(user.uid)
+        .collection('chat')
+        .snapshots();
+  }
+  static Stream<QuerySnapshot<Map<String,dynamic>>> getNoticeId(){
+    return firestore.collection('users')
+        .doc(user.uid)
+        .collection('my_users')
+        .snapshots();
+  }
+  static Future<void> gedeleteNotice(String date) async{
+    await firestore.collection('notice')
+        .doc(date)
+        .delete();
+  }
   static Stream<QuerySnapshot<Map<String,dynamic>>> getMaHPId(){
     return firestore.collection('users')
         .doc(user.uid)
@@ -176,6 +340,31 @@ class APIs{
     }
 
   }
+
+  // tạo câu tar lời
+  static Future<void> createNotice(String nd) async {
+    final time=DateTime.now().millisecondsSinceEpoch.toString();
+    try{
+      final user = auth.currentUser;
+
+      final noticeModel = NoticeModel(
+          id: user!.uid,
+          des: nd,
+          time: time,
+          name: me.name,
+          email: me.email,
+          image: me.image
+      ) ;
+      return await firestore.collection("notice").doc(time).set(noticeModel.toJson());
+
+    }
+    catch(e){
+      print('$e');
+      return null;
+    }
+
+  }
+
   //lấy mô tả
   static Stream<QuerySnapshot<Map<String,dynamic>>> getDesCriptQues() {
     return firestore.collection('createquesanddes').snapshots();
@@ -185,8 +374,29 @@ class APIs{
   static Stream<QuerySnapshot<Map<String,dynamic>>> getQuestion(String mahp,String id) {
     return firestore.collection('createquesanddes').doc(id+mahp).collection(mahp).snapshots();
   }
+  // update picture info
+  static Future<void> updateProfilePictureUsers(File file) async {
+    // getting image file extension
+    final ext = file.path.split('.').last;
 
+    // storage file ref with path
+    final ref = firebaseStorage.ref().child('profile_uers/${user.uid+ext}.$ext');
+    await ref.putFile(file, SettableMetadata(contentType: 'image/$ext')).then((p0) {
+      // You can optionally handle any post-upload tasks here
+    });
 
+    // Do not update the 'image' field in CreateDescriptMode
+    // Instead, update the 'image' field directly in Firestore
+    await firestore.collection('users').doc(user.uid).update({
+      'image': await ref.getDownloadURL(),
+    });
+  }
+  // for update uer
+  static Future<void> userUpdateInfo() async{
+    await firestore.collection('users').doc(user.uid).update({
+      'name':me.name,
+      'about':me.about});
+  }
   // update picture info
   static Future<void> updateProfilePicture(File file, String mahp) async {
     // getting image file extension
@@ -275,6 +485,86 @@ class APIs{
          print('The user must reauthenticate before this operation can be executed.');
        }
      }
+  }
 
+  // update push token and online
+  static Future<void>  updateActiveStatus(bool isOnline) async{
+    firestore
+        .collection('users')
+        .doc(user.uid)
+        .update(
+        {
+          'is_Online':isOnline,
+          'push_token': me.pushtoken,
+        });
+  }
+  // get current user info
+  static Future<void> getSetInfo() async{
+    await firestore.collection('users').doc(user.uid).get().then((user) async {
+      // kiem tra nguoi dung co ton tai khong
+      if(user.exists){
+        me=UserModel.fromJson(user.data()!);
+        await getFiMesaingToken();
+        APIs.updateActiveStatus(true);
+      }
+      else{
+        //await createUser().then((value) => getSetInfo());
+      }
+    });
+  }
+  // for checking if user exixts or not?
+  static Future<bool> userExixts() async{
+    return (await firestore.collection('users').doc(user.uid).get()).exists;
+  }
+  // get current user info
+  static Future<void> getFiMesaingToken() async{
+    await fmessaging.requestPermission(
+
+    );
+
+    await fmessaging.getToken().then((t){
+      if(t != null){
+        me.pushtoken=t;
+        log('Token : $t');
+      }
+    });
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      log('Got a message whilst in the foreground!');
+      log('Message data: ${message.data}');
+
+      if (message.notification != null) {
+        log('Message also contained a notification: ${message.notification}');
+      }
+    });
+  }
+  static Future<void> sendPudNOtification(UserModel chatUser,String msg) async{
+    try{
+      final body=
+      {
+        "to":chatUser.pushtoken,
+        "notification":{
+          "title":chatUser.name,
+          "body":msg,
+          "android_channel_id": "Chats",
+          "data": {
+            "some_data" : "User ID: ${me.id}",
+          },
+        }
+
+      };
+
+      var response = await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
+          headers: {
+            HttpHeaders.contentTypeHeader:'application/json',
+            HttpHeaders.authorizationHeader:
+            'key=AAAAR1n9Jj0:APA91bGoLdBnpMnuSz7Gk4l2WoZgGBLUJMVQHOsmVHbDFD3ChToY-t_PWNCDYE9oJWHqOn3lcj9lQc8Cfidg6ct03JEi1L7Wpc2IYYmjI3KXgDfVaMRqhiOOFFhNoQPP2T_xrDbHqnLB'
+          },
+          body:jsonEncode(body)
+      );
+      log('Response status: ${response.statusCode}');
+      log('Response body: ${response.body}');
+    }catch(e){
+      log('\n: ${e.toString()}');
+    }
   }
 }

@@ -43,6 +43,12 @@ dependencies:
   get: ^4.6.6
   intl: ^0.18.1
   image_picker: ^1.0.4
+  firebase_messaging: ^14.7.1
+  http: ^1.1.0
+  emoji_picker_flutter: ^1.6.2
+  image_gallery_saver: ^2.0.3
+  dio: ^5.3.3
+  flutter_notification_channel: ^2.0.0
 
 dev_dependencies:
   flutter_test:

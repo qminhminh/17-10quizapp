@@ -51,24 +51,29 @@ class _BottomHomeGVScreenState extends State<BottomHomeGVcreen> {
             StreamBuilder(
               stream: APIs.getDesCriptQues(),
               builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting ||
-                    snapshot.connectionState == ConnectionState.none) {
-                  return Center(child: CircularProgressIndicator());
-                } else if (snapshot.hasData) {
+                switch(snapshot.connectionState){
+                  case ConnectionState.waiting:
+                  case ConnectionState.none:
+                    return Center(child: CircularProgressIndicator(),); // Thêm trường hợp ConnectionState.none
+                  case ConnectionState.active:
+                  case ConnectionState.done:
                   final data = snapshot.data?.docs;
                   list = data?.map((e) => CreateDescriptMode.fromJson(e.data())).toList() ?? [];
 
-                  return ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: list.length,
+                  if(list.isNotEmpty){
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: list.length,
                       physics: BouncingScrollPhysics(),
-                    padding: EdgeInsets.all(6),
-                    itemBuilder: (context, index) {
-                      return DesGVQesCard(model: list[index]);
-                    },
-                  );
-                } else {
-                  return Center(child: Text('No data available.'));
+                      padding: EdgeInsets.all(6),
+                      itemBuilder: (context, index) {
+                        return DesGVQesCard(model: list[index]);
+                      },
+                    );
+                  }
+                  else{
+                    return Center(child: Text('Chưa có bài nào',style: TextStyle(fontSize: 20),));
+                  }
                 }
               },
             ),

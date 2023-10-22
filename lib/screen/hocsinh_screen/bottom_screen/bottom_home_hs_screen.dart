@@ -43,15 +43,19 @@ class _BottomHomeHSScreenState extends State<BottomHomeHSScreen> {
                         case ConnectionState.done:
                         final data = snapshot.data?.docs;
                         list = data?.map((e) => CreateDescriptMode.fromJson(e.data())).toList() ?? [];
-                        return ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: list.length,
-                          physics: BouncingScrollPhysics(),
-                          padding: EdgeInsets.all(6),
-                          itemBuilder: (context, index) {
-                            return HSDesQesCard(model: list[index]);
-                          },
-                        );
+                        if(list.isNotEmpty){
+                          return ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: list.length,
+                            physics: BouncingScrollPhysics(),
+                            padding: EdgeInsets.all(6),
+                            itemBuilder: (context, index) {
+                              return HSDesQesCard(model: list[index]);
+                            },
+                          );
+                        }else{
+                          return Center(child: Text('Chưa có học phần nào',style: TextStyle(fontSize: 20),));
+                        }
                       }
                     }
                 );

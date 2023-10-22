@@ -5,6 +5,8 @@ import 'package:thutext/screen/hocsinh_screen/bottom_screen/bottom_home_hs_scree
 import 'package:thutext/screen/hocsinh_screen/bottom_screen/bottom_notice_hs_screen.dart';
 import 'package:thutext/screen/hocsinh_screen/bottom_screen/bottom_profile_hs_screen.dart';
 
+import '../../api/apis.dart';
+
 class HSHomeScreen extends StatefulWidget {
   const HSHomeScreen({super.key});
 
@@ -16,7 +18,7 @@ class _HSHomeScreenState extends State<HSHomeScreen> {
   List<Widget> pages = [
     BottomHomeHSScreen(),
     BottomNoticeHSScreen(),
-    BottomProfileHSScreen()
+    BottomChatHSScreen()
   ];
   int currentIndex = 0;
 
@@ -29,8 +31,14 @@ class _HSHomeScreenState extends State<HSHomeScreen> {
   void initState() {
     super.initState();
     SystemChannels.lifecycle.setMessageHandler((message) async {
-      if(message.toString().contains('pause')) await FirebaseAuth.instance.signOut();
-      return Future.value(message);
+      SystemChannels.lifecycle.setMessageHandler((message) {
+        if(APIs.auth.currentUser!=null)
+        {
+          if(message.toString().contains('resume')) APIs.updateActiveStatus(true);
+          if(message.toString().contains('pause')) APIs.updateActiveStatus(false);
+        }
+        return Future.value(message);
+      });
     });
   }
   @override
@@ -49,7 +57,7 @@ class _HSHomeScreenState extends State<HSHomeScreen> {
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.notifications_active_outlined), label: 'Notice'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Users'),
+          BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'Users'),
         ],
       ),
     );

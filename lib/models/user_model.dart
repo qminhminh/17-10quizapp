@@ -5,12 +5,18 @@ class UserModel {
     required this.image,
     required this.email,
     required this.checkuser,
+    required this.about,
+    required this.pushtoken,
+    required this.isOnline,
   });
-  late final String id;
-  late final String name;
-  late final String image;
-  late final String email;
-  late final int checkuser;
+  late String id;
+  late String name;
+  late String image;
+  late String email;
+  late int checkuser;
+  late String about;
+  late String pushtoken;
+  late bool isOnline;
 
   UserModel.fromJson(Map<String, dynamic> json){
     id = json['id'] ?? '';
@@ -18,6 +24,9 @@ class UserModel {
     image = json['image']?? '';
     email = json['email']?? '';
     checkuser = json['checkuser'] ;
+    about = json['about'] ?? '';
+    pushtoken = json['push_token'] ?? '';
+    isOnline = json['is_Online'] ?? false;
   }
 
   Map<String, dynamic> toJson() {
@@ -27,6 +36,9 @@ class UserModel {
     data['image'] = image;
     data['email'] = email;
     data['checkuser'] = checkuser;
+    data['about'] = about;
+    data['push_token'] = pushtoken;
+    data['is_Online'] = isOnline;
     return data;
   }
 }
