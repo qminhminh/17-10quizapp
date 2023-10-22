@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:thutext/screen/quantri_screen/bottom_screen/bottom_user_home_screen.dart';
+import '../../api/apis.dart';
 import 'bottom_screen/bottom_home_qt_screen.dart';
 import 'bottom_screen/bottom_notice_qt_screen.dart';
 import 'bottom_screen/bottom_profile_qt_screen.dart';
@@ -34,8 +35,14 @@ class _QTHomeScreenState extends State<QTHomeScreen> {
   void initState() {
     super.initState();
     SystemChannels.lifecycle.setMessageHandler((message) async {
-        if(message.toString().contains('pause')) await FirebaseAuth.instance.signOut();
-      return Future.value(message);
+      SystemChannels.lifecycle.setMessageHandler((message) {
+        if(APIs.auth.currentUser!=null)
+        {
+          if(message.toString().contains('resume')) APIs.updateActiveStatus(true);
+          if(message.toString().contains('pause')) APIs.updateActiveStatus(false);
+        }
+        return Future.value(message);
+      });
     });
   }
 
@@ -56,7 +63,7 @@ class _QTHomeScreenState extends State<QTHomeScreen> {
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.notifications_active_outlined), label: 'Notice'),
           BottomNavigationBarItem(icon: Icon(Icons.account_box_outlined), label: 'Users'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'User'),
+          BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'User'),
         ],
       ),
     );

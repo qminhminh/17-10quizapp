@@ -5,6 +5,8 @@ import 'package:thutext/screen/giaovien_screen/bottom_screen/bottom_home_gv_scre
 import 'package:thutext/screen/giaovien_screen/bottom_screen/bottom_notice_gv_screen.dart';
 import 'package:thutext/screen/giaovien_screen/bottom_screen/bottom_profile_gv_screen.dart';
 
+import '../../api/apis.dart';
+
 class GVHomeScreen extends StatefulWidget {
   const GVHomeScreen({super.key});
 
@@ -30,8 +32,14 @@ class _GVHomeScreenState extends State<GVHomeScreen> {
   void initState() {
     super.initState();
     SystemChannels.lifecycle.setMessageHandler((message) async {
-      if(message.toString().contains('pause')) await FirebaseAuth.instance.signOut();
-      return Future.value(message);
+      SystemChannels.lifecycle.setMessageHandler((message) {
+        if(APIs.auth.currentUser!=null)
+        {
+          if(message.toString().contains('resume')) APIs.updateActiveStatus(true);
+          if(message.toString().contains('pause')) APIs.updateActiveStatus(false);
+        }
+        return Future.value(message);
+      });
     });
   }
   @override
@@ -50,7 +58,7 @@ class _GVHomeScreenState extends State<GVHomeScreen> {
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.notifications_active_outlined), label: 'Notice'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Users'),
+          BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'Users'),
         ],
       ),
     );
