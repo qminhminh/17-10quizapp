@@ -15,11 +15,10 @@ class GVHomeScreen extends StatefulWidget {
 }
 
 class _GVHomeScreenState extends State<GVHomeScreen> {
-
   List<Widget> pages = [
-   BottomHomeGVcreen(),
-    BottomNoticeGVcreen(),
-    BottomProfileGVScreen()
+    const BottomHomeGVcreen(),
+    const BottomNoticeGVcreen(),
+    const BottomProfileGVScreen()
   ];
   int currentIndex = 0;
 
@@ -28,20 +27,23 @@ class _GVHomeScreenState extends State<GVHomeScreen> {
       currentIndex = index;
     });
   }
+
   @override
   void initState() {
     super.initState();
     SystemChannels.lifecycle.setMessageHandler((message) async {
       SystemChannels.lifecycle.setMessageHandler((message) {
-        if(APIs.auth.currentUser!=null)
-        {
-          if(message.toString().contains('resume')) APIs.updateActiveStatus(true);
-          if(message.toString().contains('pause')) APIs.updateActiveStatus(false);
+        if (APIs.auth.currentUser != null) {
+          if (message.toString().contains('resume'))
+            APIs.updateActiveStatus(true);
+          if (message.toString().contains('pause'))
+            APIs.updateActiveStatus(false);
         }
         return Future.value(message);
       });
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,9 +57,10 @@ class _GVHomeScreenState extends State<GVHomeScreen> {
         showSelectedLabels: false,
         showUnselectedLabels: false,
         elevation: 0,
-        items: [
+        items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.notifications_active_outlined), label: 'Notice'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.notifications_active_outlined), label: 'Notice'),
           BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'Users'),
         ],
       ),

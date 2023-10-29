@@ -16,9 +16,9 @@ class HSHomeScreen extends StatefulWidget {
 
 class _HSHomeScreenState extends State<HSHomeScreen> {
   List<Widget> pages = [
-    BottomHomeHSScreen(),
-    BottomNoticeHSScreen(),
-    BottomChatHSScreen()
+    const BottomHomeHSScreen(),
+    const BottomNoticeHSScreen(),
+    const BottomChatHSScreen()
   ];
   int currentIndex = 0;
 
@@ -27,20 +27,23 @@ class _HSHomeScreenState extends State<HSHomeScreen> {
       currentIndex = index;
     });
   }
+
   @override
   void initState() {
     super.initState();
     SystemChannels.lifecycle.setMessageHandler((message) async {
       SystemChannels.lifecycle.setMessageHandler((message) {
-        if(APIs.auth.currentUser!=null)
-        {
-          if(message.toString().contains('resume')) APIs.updateActiveStatus(true);
-          if(message.toString().contains('pause')) APIs.updateActiveStatus(false);
+        if (APIs.auth.currentUser != null) {
+          if (message.toString().contains('resume'))
+            APIs.updateActiveStatus(true);
+          if (message.toString().contains('pause'))
+            APIs.updateActiveStatus(false);
         }
         return Future.value(message);
       });
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,9 +58,10 @@ class _HSHomeScreenState extends State<HSHomeScreen> {
         showUnselectedLabels: false,
         elevation: 0,
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.notifications_active_outlined), label: 'Notice'),
-          BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'Users'),
+          const BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          const BottomNavigationBarItem(
+              icon: Icon(Icons.notifications_active_outlined), label: 'Notice'),
+          const BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'Users'),
         ],
       ),
     );
