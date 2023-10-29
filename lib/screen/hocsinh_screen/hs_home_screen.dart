@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:thutext/screen/hocsinh_screen/bottom_screen/bottom_home_hs_screen.dart';
 import 'package:thutext/screen/hocsinh_screen/bottom_screen/bottom_notice_hs_screen.dart';
 import 'package:thutext/screen/hocsinh_screen/bottom_screen/bottom_profile_hs_screen.dart';
+import 'package:thutext/screen/hocsinh_screen/bottom_screen/bottom_score_hs_screens.dart';
 import '../../api/apis.dart';
 
 class HSHomeScreen extends StatefulWidget {
@@ -16,6 +17,7 @@ class _HSHomeScreenState extends State<HSHomeScreen> {
   List<Widget> pages = [
     const BottomHomeHSScreen(),
     const BottomNoticeHSScreen(),
+    const BottomScoreHSScreens(),
     const BottomChatHSScreen()
   ];
   int currentIndex = 0;
@@ -61,6 +63,7 @@ class _HSHomeScreenState extends State<HSHomeScreen> {
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(
               icon: Icon(Icons.notifications_active_outlined), label: 'Notice'),
+          BottomNavigationBarItem(icon: Icon(Icons.science), label: 'Score'),
           BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'Users'),
         ],
       ),

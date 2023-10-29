@@ -301,6 +301,7 @@ class _DesGVQesCardState extends State<DesGVQesCard> {
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
+                  // ignore: unnecessary_null_comparison
                   if (widget.model != null) {
                     Navigator.pop(context);
                   } else {

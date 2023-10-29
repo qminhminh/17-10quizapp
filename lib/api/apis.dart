@@ -90,7 +90,7 @@ class APIs {
       await firestore
           .collection("NOticeScoreHS")
           .doc(auth.currentUser!.uid)
-          .collection(mahp)
+          .collection('score')
           .doc(time)
           .set(scoreHSModel.toJson());
     } catch (e) {
@@ -227,6 +227,14 @@ class APIs {
     return firestore
         .collection('users')
         .where('id', whereIn: userIds)
+        .snapshots();
+  }
+
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getAllSocreME() {
+    return firestore
+        .collection('NOticeScoreHS')
+        .doc(user.uid)
+        .collection('score')
         .snapshots();
   }
 
