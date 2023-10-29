@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:thutext/screen/giaovien_screen/bottom_screen/bottom_home_gv_screen.dart';
+import 'package:thutext/screen/giaovien_screen/bottom_screen/bottom_hs_of_gv_screen.dart';
 import 'package:thutext/screen/giaovien_screen/bottom_screen/bottom_notice_gv_screen.dart';
 import 'package:thutext/screen/giaovien_screen/bottom_screen/bottom_profile_gv_screen.dart';
 import '../../api/apis.dart';
@@ -16,7 +17,8 @@ class _GVHomeScreenState extends State<GVHomeScreen> {
   List<Widget> pages = [
     const BottomHomeGVcreen(),
     const BottomNoticeGVcreen(),
-    const BottomProfileGVScreen()
+    const BottomProfileGVScreen(),
+    const BottomHSOfGVScreen(),
   ];
   int currentIndex = 0;
 
@@ -62,6 +64,7 @@ class _GVHomeScreenState extends State<GVHomeScreen> {
           BottomNavigationBarItem(
               icon: Icon(Icons.notifications_active_outlined), label: 'Notice'),
           BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'Users'),
+          BottomNavigationBarItem(icon: Icon(Icons.people), label: 'HS'),
         ],
       ),
     );

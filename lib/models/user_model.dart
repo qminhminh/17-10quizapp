@@ -8,6 +8,7 @@ class UserModel {
     required this.about,
     required this.pushtoken,
     required this.isOnline,
+    required this.password,
   });
   late String id;
   late String name;
@@ -17,16 +18,18 @@ class UserModel {
   late String about;
   late String pushtoken;
   late bool isOnline;
+  late String password;
 
-  UserModel.fromJson(Map<String, dynamic> json){
+  UserModel.fromJson(Map<String, dynamic> json) {
     id = json['id'] ?? '';
     name = json['name'] ?? '';
-    image = json['image']?? '';
-    email = json['email']?? '';
-    checkuser = json['checkuser'] ;
+    image = json['image'] ?? '';
+    email = json['email'] ?? '';
+    checkuser = json['checkuser'];
     about = json['about'] ?? '';
     pushtoken = json['push_token'] ?? '';
     isOnline = json['is_Online'] ?? false;
+    password = json['password'] ?? '';
   }
 
   Map<String, dynamic> toJson() {
@@ -39,6 +42,7 @@ class UserModel {
     data['about'] = about;
     data['push_token'] = pushtoken;
     data['is_Online'] = isOnline;
+    data['password'] = password;
     return data;
   }
 }

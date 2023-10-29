@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:thutext/api/apis.dart';
+import 'package:thutext/screen/giaovien_screen/gv_home_screen.dart';
+import 'package:thutext/screen/hocsinh_screen/hs_home_screen.dart';
+import 'package:thutext/screen/quantri_screen/qt_home_screen.dart';
 import 'auth/login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -13,16 +17,18 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Future.delayed(const Duration(seconds: 2), () {
-      // if(APIs.auth.currentUser!.email!.contains('hs')){
-      //   Navigator.push(context, MaterialPageRoute(builder: (_) => HSHomeScreen()));
+      // if (APIs.prefs.getString('hs') != null) {
+      //   Navigator.push(
+      //       context, MaterialPageRoute(builder: (_) => const HSHomeScreen()));
       // }
-      // else if(APIs.auth.currentUser!.email!.contains('gv')){
-      //   Navigator.push(context, MaterialPageRoute(builder: (_) => GVHomeScreen()));
+      // if (APIs.prefs.getString('gv') != null) {
+      //   Navigator.push(
+      //       context, MaterialPageRoute(builder: (_) => const GVHomeScreen()));
       // }
-      // else if(APIs.auth.currentUser!.email!.contains('qt')){
-      //   Navigator.push(context, MaterialPageRoute(builder: (_) => QTHomeScreen()));
-      // }
-      // else {
+      // if (APIs.prefs.getString('qt') != null) {
+      //   Navigator.push(
+      //       context, MaterialPageRoute(builder: (_) => const QTHomeScreen()));
+      // } else {
       Navigator.push(
           context, MaterialPageRoute(builder: (_) => const LoginScreen()));
       //}

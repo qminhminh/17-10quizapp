@@ -1,12 +1,11 @@
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:thutext/api/apis.dart';
 import 'package:thutext/screen/auth/signup_screen.dart';
 import '../../helpers/dialogs.dart';
 import '../giaovien_screen/gv_home_screen.dart';
 import '../hocsinh_screen/hs_home_screen.dart';
 import '../quantri_screen/qt_home_screen.dart';
-
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -16,18 +15,16 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-
   var textEmailController = TextEditingController();
   var textPassWordController = TextEditingController();
 
-  Future<UserCredential?> loginEmailandPassword() async{
+  Future<UserCredential?> loginEmailandPassword() async {
     try {
       return await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: textEmailController.text,
         password: textPassWordController.text,
       );
-    }
-    catch (e){
+    } catch (e) {
       print('${e}');
       Dialogs.showSnacker(context, 'Something went Wrong Check Internet');
       return null;
@@ -46,8 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
               height: MediaQuery.of(context).size.height * 0.35,
               decoration: const BoxDecoration(
                 image: DecorationImage(
-                    image: AssetImage("images/login.svg"),
-                    fit: BoxFit.cover),
+                    image: AssetImage("images/login.svg"), fit: BoxFit.cover),
               ),
             ),
             Container(
@@ -77,28 +73,31 @@ class _LoginScreenState extends State<LoginScreen> {
                               spreadRadius: 7,
                               color: Colors.grey.withOpacity(0.2),
                               blurRadius: 10,
-                              offset: Offset(1, 1),
+                              offset: const Offset(1, 1),
                             ),
                           ]),
                       child: TextField(
                         controller: textEmailController,
                         decoration: InputDecoration(
                             hintText: 'Email của bạn',
-                            prefixIcon: Icon(Icons.email,color: Colors.blueAccent,),
+                            prefixIcon: const Icon(
+                              Icons.email,
+                              color: Colors.blueAccent,
+                            ),
                             focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(30),
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                     color: Colors.white, width: 1.0)),
                             enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(30),
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                     color: Colors.white, width: 1.0)),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(30),
                             )),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     Container(
@@ -110,28 +109,31 @@ class _LoginScreenState extends State<LoginScreen> {
                               spreadRadius: 7,
                               color: Colors.grey.withOpacity(0.2),
                               blurRadius: 10,
-                              offset: Offset(1, 1),
+                              offset: const Offset(1, 1),
                             ),
                           ]),
                       child: TextField(
                         controller: textPassWordController,
                         decoration: InputDecoration(
                             hintText: 'Mật khẩu của bạn',
-                            prefixIcon: Icon(Icons.password_outlined,color: Colors.blueAccent,),
+                            prefixIcon: const Icon(
+                              Icons.password_outlined,
+                              color: Colors.blueAccent,
+                            ),
                             focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(30),
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                     color: Colors.white, width: 1.0)),
                             enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(30),
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                     color: Colors.white, width: 1.0)),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(30),
                             )),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     Row(
@@ -139,50 +141,68 @@ class _LoginScreenState extends State<LoginScreen> {
                         Expanded(child: Container()),
                         TextButton(
                           onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (_) => SignUpScreen()));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => const SignUpScreen()));
                           },
-                          child: Text('Bạn chưa có tài khoản', style: TextStyle(fontSize: 17, color: Colors.grey[500]),),
-
+                          child: Text(
+                            'Bạn chưa có tài khoản',
+                            style: TextStyle(
+                                fontSize: 17, color: Colors.grey[500]),
+                          ),
                         ),
                       ],
                     ),
                   ]),
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
             Container(
               width: MediaQuery.of(context).size.width * 0.5,
               height: MediaQuery.of(context).size.height * 0.08,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30),
-                color: Colors.blueAccent
-                // image: DecorationImage(
-                //     image: AssetImage("images/loginbtn.png"),
-                //     fit: BoxFit.cover),
-              ),
+                  borderRadius: BorderRadius.circular(30),
+                  color: Colors.blueAccent
+                  // image: DecorationImage(
+                  //     image: AssetImage("images/loginbtn.png"),
+                  //     fit: BoxFit.cover),
+                  ),
               child: Center(
                 child: InkWell(
-                  onTap: (){
+                  onTap: () {
                     String email = textEmailController.text;
 
-                    if(email.contains('hs')){
+                    if (email.contains('hs')) {
                       loginEmailandPassword();
-                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => HSHomeScreen()));
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => const HSHomeScreen()));
+                      APIs.prefs.setString('hs', email);
                       Dialogs.showSnacker(context, 'Đăng nhập thành công');
                     }
-                    if(email.contains('gv')){
+                    if (email.contains('gv')) {
                       loginEmailandPassword();
-                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => GVHomeScreen()));
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => const GVHomeScreen()));
+                      APIs.prefs.setString('gv', email);
                       Dialogs.showSnacker(context, 'Đăng nhập thành công');
                     }
-                    if(email.contains('qt')){
+                    if (email.contains('qt')) {
                       loginEmailandPassword();
-                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => QTHomeScreen()));
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => const QTHomeScreen()));
+                      APIs.prefs.setString('qt', email);
                       Dialogs.showSnacker(context, 'Đăng nhập thành công');
                     }
                   },
-                  child: Text(
+                  child: const Text(
                     'Đăng nhập',
                     style: TextStyle(
                         fontSize: 23,
@@ -192,10 +212,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 26,
             ),
-
           ],
         ),
       ),

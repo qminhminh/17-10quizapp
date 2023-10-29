@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:thutext/models/giao_vien/create_description_model.dart';
 import 'package:thutext/models/giao_vien/create_question_model.dart';
 import 'package:thutext/models/hoc_sinh/score_model.dart';
@@ -12,7 +13,6 @@ import 'package:thutext/models/notice_model.dart';
 import 'package:thutext/models/quan_tri/malopgv_model.dart';
 import 'package:thutext/models/user_model.dart';
 import 'package:http/http.dart' as http;
-
 import '../models/message.dart';
 
 class APIs {
@@ -20,12 +20,14 @@ class APIs {
   static FirebaseFirestore firestore = FirebaseFirestore.instance;
   static FirebaseStorage firebaseStorage = FirebaseStorage.instance;
   static FirebaseMessaging fmessaging = FirebaseMessaging.instance;
+  static SharedPreferences prefs =
+      SharedPreferences.getInstance() as SharedPreferences;
   static User get user => auth.currentUser!;
   static late CreateDescriptMode medes;
   static late UserModel me;
 
   // tạo tài khoản cho người dùng
-  static Future<void> createUser(String email, int a) async {
+  static Future<void> createUser(String email, int a, String pass) async {
     try {
       final userModel = UserModel(
           id: auth.currentUser!.uid,
@@ -35,7 +37,8 @@ class APIs {
           checkuser: a,
           about: '',
           pushtoken: '',
-          isOnline: false);
+          isOnline: false,
+          password: pass);
       await firestore
           .collection("users")
           .doc(auth.currentUser!.uid)
