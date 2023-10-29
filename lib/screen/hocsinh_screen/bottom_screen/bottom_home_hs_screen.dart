@@ -18,7 +18,7 @@ class _BottomHomeHSScreenState extends State<BottomHomeHSScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Question Text'),
-        leading: const Text('Total : '),
+        leading: const Text(''),
         automaticallyImplyLeading: false,
       ),
       body: StreamBuilder(

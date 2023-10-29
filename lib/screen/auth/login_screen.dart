@@ -176,6 +176,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     SharedPreferences prefs =
                         await SharedPreferences.getInstance();
                     String email = textEmailController.text;
+                    prefs.setString('email', email);
 
                     if (email.contains('hs')) {
                       loginEmailandPassword();
@@ -196,6 +197,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           MaterialPageRoute(
                               builder: (_) => const GVHomeScreen()));
                       prefs.setString('gv', "1");
+
                       // ignore: use_build_context_synchronously
                       Dialogs.showSnacker(context, 'Đăng nhập thành công');
                     }

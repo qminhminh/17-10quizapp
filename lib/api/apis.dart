@@ -8,6 +8,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:thutext/models/giao_vien/create_description_model.dart';
 import 'package:thutext/models/giao_vien/create_question_model.dart';
+import 'package:thutext/models/giao_vien/socre_hs_model.dart';
+import 'package:thutext/models/hoc_sinh/notice_score.dart';
 import 'package:thutext/models/hoc_sinh/score_model.dart';
 import 'package:thutext/models/notice_model.dart';
 import 'package:thutext/models/quan_tri/malopgv_model.dart';
@@ -20,8 +22,7 @@ class APIs {
   static FirebaseFirestore firestore = FirebaseFirestore.instance;
   static FirebaseStorage firebaseStorage = FirebaseStorage.instance;
   static FirebaseMessaging fmessaging = FirebaseMessaging.instance;
-  static SharedPreferences prefs =
-      SharedPreferences.getInstance() as SharedPreferences;
+
   static User get user => auth.currentUser!;
   static late CreateDescriptMode medes;
   static late UserModel me;
@@ -43,6 +44,53 @@ class APIs {
           .collection("users")
           .doc(auth.currentUser!.uid)
           .set(userModel.toJson());
+    } catch (e) {
+      print('$e');
+      return null;
+    }
+  }
+
+  // ignore: non_constant_identifier_names
+  static Future<void> SeeScoreGV(
+      String timeques, int score, String mahp) async {
+    final time = DateTime.now().millisecondsSinceEpoch.toString();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? email = prefs.getString('email');
+    final scoreHSModel = ScoreHSModel(
+        id: auth.currentUser!.uid,
+        score: score,
+        mahp: mahp,
+        email: email!,
+        time: timeques);
+    return await firestore
+        .collection("SeeScoreGV")
+        .doc(mahp)
+        .collection('score')
+        .doc(time)
+        .set(scoreHSModel.toJson());
+  }
+
+  // ignore: non_constant_identifier_names
+  static Future<void> NoticeSeeScoreHS(
+      String timeques, int score, String mahp, String namemh) async {
+    final time = DateTime.now().millisecondsSinceEpoch.toString();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? email = prefs.getString('email');
+    try {
+      final scoreHSModel = NoticeScoreHSModel(
+        id: auth.currentUser!.uid,
+        score: score,
+        mahp: mahp,
+        email: email!,
+        time: timeques,
+        namemh: namemh,
+      );
+      await firestore
+          .collection("NOticeScoreHS")
+          .doc(auth.currentUser!.uid)
+          .collection(mahp)
+          .doc(time)
+          .set(scoreHSModel.toJson());
     } catch (e) {
       print('$e');
       return null;

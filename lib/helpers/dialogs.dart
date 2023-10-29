@@ -32,13 +32,11 @@ class Dialogs {
           ),
           child: Text(
             mss,
-            style: const TextStyle(
-              fontSize: 20,
-            ),
+            style: const TextStyle(fontSize: 20, color: Colors.black54),
           ),
         ),
       ),
-      duration: const Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 4500),
       backgroundColor: Colors.grey[300],
       behavior: SnackBarBehavior.floating,
       shape: RoundedRectangleBorder(
