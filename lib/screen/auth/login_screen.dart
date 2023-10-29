@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:thutext/api/apis.dart';
 import 'package:thutext/screen/auth/signup_screen.dart';
 import '../../helpers/dialogs.dart';
@@ -171,34 +172,42 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
               child: Center(
                 child: InkWell(
-                  onTap: () {
+                  onTap: () async {
+                    SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
                     String email = textEmailController.text;
 
                     if (email.contains('hs')) {
                       loginEmailandPassword();
+                      // ignore: use_build_context_synchronously
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                               builder: (_) => const HSHomeScreen()));
-                      APIs.prefs.setString('hs', email);
+                      prefs.setString('hs', "0");
+                      // ignore: use_build_context_synchronously
                       Dialogs.showSnacker(context, 'Đăng nhập thành công');
                     }
                     if (email.contains('gv')) {
                       loginEmailandPassword();
+                      // ignore: use_build_context_synchronously
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                               builder: (_) => const GVHomeScreen()));
-                      APIs.prefs.setString('gv', email);
+                      prefs.setString('gv', "1");
+                      // ignore: use_build_context_synchronously
                       Dialogs.showSnacker(context, 'Đăng nhập thành công');
                     }
                     if (email.contains('qt')) {
                       loginEmailandPassword();
+                      // ignore: use_build_context_synchronously
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                               builder: (_) => const QTHomeScreen()));
-                      APIs.prefs.setString('qt', email);
+                      prefs.setString('qt', "2");
+                      // ignore: use_build_context_synchronously
                       Dialogs.showSnacker(context, 'Đăng nhập thành công');
                     }
                   },

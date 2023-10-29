@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:thutext/models/user_model.dart';
 import 'package:thutext/screen/auth/login_screen.dart';
 import '../api/apis.dart';
@@ -33,15 +34,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: FloatingActionButton.extended(
           icon: const Icon(Icons.logout),
           onPressed: () async {
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+
             await APIs.updateActiveStatus(false);
             // ignore: use_build_context_synchronously
             Dialogs.showProgressBar(context);
+            prefs.setString('hs', '');
+            prefs.setString('gv', '');
+            prefs.setString('qt', '');
             await FirebaseAuth.instance.signOut().then((value) async {
               Navigator.pop(context);
               APIs.auth = FirebaseAuth.instance;
-              APIs.prefs.setString('hs', '');
-              APIs.prefs.setString('gv', '');
-              APIs.prefs.setString('qt', '');
               Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (_) => const LoginScreen()));
             });

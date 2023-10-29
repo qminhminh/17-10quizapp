@@ -239,7 +239,7 @@ class _QTAddUsersScreenState extends State<QTAddUsersScreen> {
                     print(emailList);
                   },
                   child: const Text(
-                    'Thêm sinh viên cho giáo viên',
+                    'Thêm',
                     style: TextStyle(
                         fontSize: 23,
                         fontWeight: FontWeight.bold,

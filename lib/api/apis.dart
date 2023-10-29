@@ -180,6 +180,14 @@ class APIs {
         .snapshots();
   }
 
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getMonOFGV() {
+    return firestore
+        .collection('classgv')
+        .doc(user!.uid)
+        .collection('ma')
+        .snapshots();
+  }
+
   static Stream<QuerySnapshot<Map<String, dynamic>>> getAllNOticeUser(
       List<String> userIds) {
     return firestore

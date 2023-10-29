@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:thutext/api/apis.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:thutext/screen/giaovien_screen/gv_home_screen.dart';
 import 'package:thutext/screen/hocsinh_screen/hs_home_screen.dart';
 import 'package:thutext/screen/quantri_screen/qt_home_screen.dart';
@@ -16,22 +16,27 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 2), () {
-      // if (APIs.prefs.getString('hs') != null) {
-      //   Navigator.push(
-      //       context, MaterialPageRoute(builder: (_) => const HSHomeScreen()));
-      // }
-      // if (APIs.prefs.getString('gv') != null) {
-      //   Navigator.push(
-      //       context, MaterialPageRoute(builder: (_) => const GVHomeScreen()));
-      // }
-      // if (APIs.prefs.getString('qt') != null) {
-      //   Navigator.push(
-      //       context, MaterialPageRoute(builder: (_) => const QTHomeScreen()));
-      // } else {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (_) => const LoginScreen()));
-      //}
+    Future.delayed(const Duration(seconds: 2), () async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      if (prefs.getString('hs') == '0') {
+        // ignore: use_build_context_synchronously
+        Navigator.push(
+            context, MaterialPageRoute(builder: (_) => const HSHomeScreen()));
+      }
+      if (prefs.getString('gv') == '1') {
+        // ignore: use_build_context_synchronously
+        Navigator.push(
+            context, MaterialPageRoute(builder: (_) => const GVHomeScreen()));
+      }
+      if (prefs.getString('qt') == '2') {
+        // ignore: use_build_context_synchronously
+        Navigator.push(
+            context, MaterialPageRoute(builder: (_) => const QTHomeScreen()));
+      } else {
+        // ignore: use_build_context_synchronously
+        Navigator.push(
+            context, MaterialPageRoute(builder: (_) => const LoginScreen()));
+      }
     });
   }
 
