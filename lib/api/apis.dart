@@ -61,7 +61,8 @@ class APIs {
         score: score,
         mahp: mahp,
         email: email!,
-        time: timeques);
+        time: timeques,
+        date: time);
     return await firestore
         .collection("SeeScoreGV")
         .doc(mahp)
@@ -84,6 +85,7 @@ class APIs {
         email: email!,
         time: timeques,
         namemh: namemh,
+        date: time,
       );
       await firestore
           .collection("NOticeScoreHS")

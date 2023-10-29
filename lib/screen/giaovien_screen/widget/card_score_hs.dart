@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:thutext/helpers/my_date_uti.dart';
 import 'package:thutext/models/giao_vien/socre_hs_model.dart';
 
 class CardSordHS extends StatefulWidget {
@@ -46,6 +47,13 @@ class _CardSordHSState extends State<CardSordHS> {
             padding: const EdgeInsets.all(8.0),
             child: Text(
               'Thời gian nộp :${widget.model.time}',
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'Ngày :${MyDateUtil.getLastActiveTime(context: context, lastActive: widget.model.date)}',
               style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
             ),
           ),

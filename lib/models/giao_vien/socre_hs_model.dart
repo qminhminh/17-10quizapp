@@ -5,12 +5,14 @@ class ScoreHSModel {
     required this.mahp,
     required this.email,
     required this.time,
+    required this.date,
   });
   late final String id;
   late final int score;
   late final String mahp;
   late final String email;
   late final String time;
+  late final String date;
 
   ScoreHSModel.fromJson(Map<String, dynamic> json) {
     id = json['id'] ?? '';
@@ -18,6 +20,7 @@ class ScoreHSModel {
     mahp = json['mahp'] ?? '';
     email = json['email'] ?? '';
     time = json['time'] ?? '';
+    date = json['date'] ?? '';
   }
 
   Map<String, dynamic> toJson() {
@@ -27,6 +30,7 @@ class ScoreHSModel {
     data['time'] = time;
     data['mahp'] = mahp;
     data['email'] = email;
+    data['date'] = date;
     return data;
   }
 }

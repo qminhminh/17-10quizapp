@@ -17,8 +17,8 @@ class _GVHomeScreenState extends State<GVHomeScreen> {
   List<Widget> pages = [
     const BottomHomeGVcreen(),
     const BottomNoticeGVcreen(),
-    const BottomProfileGVScreen(),
     const BottomHSOfGVScreen(),
+    const BottomProfileGVScreen(),
   ];
   int currentIndex = 0;
 
@@ -63,8 +63,8 @@ class _GVHomeScreenState extends State<GVHomeScreen> {
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(
               icon: Icon(Icons.notifications_active_outlined), label: 'Notice'),
-          BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'Users'),
           BottomNavigationBarItem(icon: Icon(Icons.people), label: 'HS'),
+          BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'Users'),
         ],
       ),
     );
