@@ -18,27 +18,31 @@ class _AccountGVScreenState extends State<AccountGVScreen> {
     return Scaffold(
       body: StreamBuilder(
           stream: APIs.getUser(),
-          builder: (context, snapshot){
-            switch(snapshot.connectionState){
+          builder: (context, snapshot) {
+            switch (snapshot.connectionState) {
               case ConnectionState.waiting:
               case ConnectionState.none:
-                return Center(child: CircularProgressIndicator(),); // Thêm trường hợp ConnectionState.none
+                return const Center(
+                  child: CircularProgressIndicator(),
+                ); // Thêm trường hợp ConnectionState.none
               case ConnectionState.active:
               case ConnectionState.done:
                 final data = snapshot.data?.docs;
-                list = data?.map((e) => UserModel.fromJson(e.data())).toList() ?? [];
+                list =
+                    data?.map((e) => UserModel.fromJson(e.data())).toList() ??
+                        [];
                 return ListView.builder(
                     shrinkWrap: true,
-                    physics: BouncingScrollPhysics(),
-                    padding: EdgeInsets.all(6),
+                    physics: const BouncingScrollPhysics(),
+                    padding: const EdgeInsets.all(6),
                     itemCount: list.length,
-                    itemBuilder: (context,index){
-                      return GVCard(model: list[index],);
-                    }
-                );
+                    itemBuilder: (context, index) {
+                      return GVCard(
+                        model: list[index],
+                      );
+                    });
             }
-          }
-      ),
+          }),
     );
   }
 }

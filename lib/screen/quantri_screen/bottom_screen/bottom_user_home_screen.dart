@@ -17,21 +17,20 @@ class _BottomUserQTScreenState extends State<BottomUserQTScreen> {
         child: Scaffold(
           appBar: AppBar(
             automaticallyImplyLeading: false,
-            bottom: TabBar(
+            bottom: const TabBar(
               tabs: [
                 Tab(icon: Icon(Icons.account_box_outlined)),
                 Tab(icon: Icon(Icons.account_box_sharp)),
               ],
             ),
-            title: Text('Tất cả tài khoản'),
+            title: const Text('Tất cả tài khoản'),
           ),
-          body: TabBarView(
+          body: const TabBarView(
             children: [
               AccountHSScreen(),
               AccountGVScreen(),
             ],
           ),
-        )
-    );
+        ));
   }
 }

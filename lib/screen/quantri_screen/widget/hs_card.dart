@@ -12,26 +12,29 @@ class HSCard extends StatefulWidget {
 }
 
 class _HSCardState extends State<HSCard> {
-
   @override
   Widget build(BuildContext context) {
     final a = widget.model.email.contains('hs');
-    return a ? ListTile(
-      leading: ClipRRect(
-        borderRadius: BorderRadius.circular(3),
-        child: CachedNetworkImage(
-          width:55,
-          height: 55,
-          imageUrl: widget.model.image,
-          placeholder: (context, url) => CircularProgressIndicator(),
-          errorWidget: (context, url, error) => CircleAvatar(child: Icon(CupertinoIcons.person),),
-        ),
-      ),
-      title: Text(widget.model.name),
-      subtitle: Text(widget.model.email),
-      trailing: IconButton(onPressed: (){
-
-      }, icon: Icon(Icons.delete_forever)),
-    ): Text('');
+    return a
+        ? ListTile(
+            leading: ClipRRect(
+              borderRadius: BorderRadius.circular(3),
+              child: CachedNetworkImage(
+                width: 55,
+                height: 55,
+                imageUrl: widget.model.image,
+                placeholder: (context, url) =>
+                    const CircularProgressIndicator(),
+                errorWidget: (context, url, error) => const CircleAvatar(
+                  child: Icon(CupertinoIcons.person),
+                ),
+              ),
+            ),
+            title: Text(widget.model.name),
+            subtitle: Text(widget.model.email),
+            trailing: IconButton(
+                onPressed: () {}, icon: const Icon(Icons.delete_forever)),
+          )
+        : const Text('');
   }
 }

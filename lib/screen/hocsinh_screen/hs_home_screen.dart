@@ -1,10 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:thutext/screen/hocsinh_screen/bottom_screen/bottom_home_hs_screen.dart';
 import 'package:thutext/screen/hocsinh_screen/bottom_screen/bottom_notice_hs_screen.dart';
 import 'package:thutext/screen/hocsinh_screen/bottom_screen/bottom_profile_hs_screen.dart';
-
 import '../../api/apis.dart';
 
 class HSHomeScreen extends StatefulWidget {
@@ -35,8 +33,10 @@ class _HSHomeScreenState extends State<HSHomeScreen> {
       SystemChannels.lifecycle.setMessageHandler((message) {
         if (APIs.auth.currentUser != null) {
           if (message.toString().contains('resume'))
+            // ignore: curly_braces_in_flow_control_structures
             APIs.updateActiveStatus(true);
           if (message.toString().contains('pause'))
+            // ignore: curly_braces_in_flow_control_structures
             APIs.updateActiveStatus(false);
         }
         return Future.value(message);
@@ -57,11 +57,11 @@ class _HSHomeScreenState extends State<HSHomeScreen> {
         showSelectedLabels: false,
         showUnselectedLabels: false,
         elevation: 0,
-        items: [
-          const BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          const BottomNavigationBarItem(
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(
               icon: Icon(Icons.notifications_active_outlined), label: 'Notice'),
-          const BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'Users'),
+          BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'Users'),
         ],
       ),
     );

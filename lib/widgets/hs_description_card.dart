@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:thutext/screen/hocsinh_screen/start_screen/start_screen.dart';
@@ -13,16 +12,16 @@ class HSDesQesCard extends StatefulWidget {
 }
 
 class _DesGVQesCardState extends State<HSDesQesCard> {
-
   String? img;
-
 
   @override
   Widget build(BuildContext context) {
-
     return GestureDetector(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (_) => StartScreen(model: widget.model)));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (_) => StartScreen(model: widget.model)));
       },
       child: Card(
         color: Colors.white,
@@ -33,44 +32,54 @@ class _DesGVQesCardState extends State<HSDesQesCard> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 5,),
+            const SizedBox(
+              height: 5,
+            ),
             Center(
               child: ClipRRect(
                 child: CachedNetworkImage(
                   imageUrl: widget.model.image,
                   height: 160,
                   width: 350,
-                  fit: BoxFit.cover, // Use 'cover' to make the image cover the entire area
-                  placeholder: (context, url) => Center(child: CircularProgressIndicator()),
-                  errorWidget: (context, url, error) => Center(child: Icon(Icons.person)),
+                  fit: BoxFit
+                      .cover, // Use 'cover' to make the image cover the entire area
+                  placeholder: (context, url) =>
+                      const Center(child: CircularProgressIndicator()),
+                  errorWidget: (context, url, error) =>
+                      const Center(child: Icon(Icons.person)),
                 ),
               ),
             ),
-            SizedBox(height: 5,),
+            const SizedBox(
+              height: 5,
+            ),
             Padding(
-              padding: EdgeInsets.only(left: 17), // Add padding to the text
+              padding:
+                  const EdgeInsets.only(left: 17), // Add padding to the text
               child: Text(
-                '${widget.model.namesubject}',
-                style: TextStyle(
+                widget.model.namesubject,
+                style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 17), // Add padding to the text
+              padding:
+                  const EdgeInsets.only(left: 17), // Add padding to the text
               child: Text(
                 'Mã học phần - ${widget.model.subjectcode}',
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 16,
                 ),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 17), // Add padding to the text
+              padding:
+                  const EdgeInsets.only(left: 17), // Add padding to the text
               child: Text(
-                'Thời gian làm bài - ${(int.parse(widget.model.timeQues)/60).ceil()} phút',
-                style: TextStyle(
+                'Thời gian làm bài - ${(int.parse(widget.model.timeQues) / 60).ceil()} phút',
+                style: const TextStyle(
                   fontSize: 16,
                 ),
               ),
@@ -78,9 +87,6 @@ class _DesGVQesCardState extends State<HSDesQesCard> {
           ],
         ),
       ),
-    ) ;
+    );
   }
-
-
 }
-
