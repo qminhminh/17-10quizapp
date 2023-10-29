@@ -1,4 +1,3 @@
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:thutext/screen/auth/login_screen.dart';
@@ -34,31 +33,58 @@ class _BottomHomeQTScreenState extends State<BottomHomeQTScreen> {
         child: Column(
           children: [
             Row(
-            children: [
-              IconButton(onPressed: () async {
-                await FirebaseAuth.instance.signOut();
-                Navigator.push(context, MaterialPageRoute(builder: (_) => SignUpScreen()));
-              }, icon: Icon(Icons.add)),
-              TextButton(onPressed: () async {
-                await FirebaseAuth.instance.signOut();
-                Navigator.push(context, MaterialPageRoute(builder: (_) => SignUpScreen()));
-              }, child: Text('Tạo tài khoản cho sinh viên và học sinh'))
-            ],
-          ),
-            Row(
               children: [
-                IconButton(onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (_) => QTAddUsersScreen()));
-                }, icon: Icon(Icons.add)),
-                TextButton(onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (_) => QTAddUsersScreen()));
-                }, child: Text('Thêm học sinh cho giáo viên'))
+                IconButton(
+                    onPressed: () async {
+                      await FirebaseAuth.instance.signOut();
+                      // ignore: use_build_context_synchronously
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => const SignUpScreen()));
+                    },
+                    icon: const Icon(Icons.add)),
+                TextButton(
+                    onPressed: () async {
+                      await FirebaseAuth.instance.signOut();
+                      // ignore: use_build_context_synchronously
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => const SignUpScreen()));
+                    },
+                    child:
+                        const Text('Tạo tài khoản cho sinh viên và học sinh'))
               ],
             ),
-            TextButton(onPressed: () async {
-              await FirebaseAuth.instance.signOut();
-              Navigator.push(context, MaterialPageRoute(builder: (_) => LoginScreen()));
-            }, child: Text('Đăng xuất '))
+            Row(
+              children: [
+                IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => const QTAddUsersScreen()));
+                    },
+                    icon: const Icon(Icons.add)),
+                TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => const QTAddUsersScreen()));
+                    },
+                    child: const Text('Thêm học sinh cho giáo viên'))
+              ],
+            ),
+            TextButton(
+                onPressed: () async {
+                  await FirebaseAuth.instance.signOut();
+                  // ignore: use_build_context_synchronously
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (_) => const LoginScreen()));
+                },
+                child: const Text('Đăng xuất '))
           ],
         ),
       ),

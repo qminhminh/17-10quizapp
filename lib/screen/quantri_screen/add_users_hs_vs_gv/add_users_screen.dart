@@ -12,8 +12,8 @@ class _QTAddUsersScreenState extends State<QTAddUsersScreen> {
   var textEmailHSController = TextEditingController();
   var textEmailGVController = TextEditingController();
   var mahocphanController = TextEditingController();
+  var tenmonhocphanController = TextEditingController();
   List<String> emailList = [];
-
 
   @override
   Widget build(BuildContext context) {
@@ -27,8 +27,7 @@ class _QTAddUsersScreenState extends State<QTAddUsersScreen> {
               height: MediaQuery.of(context).size.height * 0.35,
               decoration: const BoxDecoration(
                 image: DecorationImage(
-                    image: AssetImage("images/login.svg"),
-                    fit: BoxFit.cover),
+                    image: AssetImage("images/login.svg"), fit: BoxFit.cover),
               ),
             ),
             Container(
@@ -40,7 +39,7 @@ class _QTAddUsersScreenState extends State<QTAddUsersScreen> {
                     const Text(
                       'Xin chào',
                       style:
-                      TextStyle(fontSize: 34, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 34, fontWeight: FontWeight.bold),
                     ),
                     Text(
                       'Hãy thêm sinh viên cho giáo viên',
@@ -58,28 +57,31 @@ class _QTAddUsersScreenState extends State<QTAddUsersScreen> {
                               spreadRadius: 7,
                               color: Colors.grey.withOpacity(0.2),
                               blurRadius: 10,
-                              offset: Offset(1, 1),
+                              offset: const Offset(1, 1),
                             ),
                           ]),
                       child: TextField(
                         controller: textEmailHSController,
                         decoration: InputDecoration(
                             hintText: 'Email học sinh',
-                            prefixIcon: Icon(Icons.email,color: Colors.blueAccent,),
+                            prefixIcon: const Icon(
+                              Icons.email,
+                              color: Colors.blueAccent,
+                            ),
                             focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(30),
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                     color: Colors.white, width: 1.0)),
                             enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(30),
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                     color: Colors.white, width: 1.0)),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(30),
                             )),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     Container(
@@ -91,28 +93,31 @@ class _QTAddUsersScreenState extends State<QTAddUsersScreen> {
                               spreadRadius: 7,
                               color: Colors.grey.withOpacity(0.2),
                               blurRadius: 10,
-                              offset: Offset(1, 1),
+                              offset: const Offset(1, 1),
                             ),
                           ]),
                       child: TextField(
                         controller: textEmailGVController,
                         decoration: InputDecoration(
                             hintText: 'Email giáo viên',
-                            prefixIcon: Icon(Icons.password_outlined,color: Colors.blueAccent,),
+                            prefixIcon: const Icon(
+                              Icons.password_outlined,
+                              color: Colors.blueAccent,
+                            ),
                             focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(30),
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                     color: Colors.white, width: 1.0)),
                             enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(30),
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                     color: Colors.white, width: 1.0)),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(30),
                             )),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     Container(
@@ -124,28 +129,67 @@ class _QTAddUsersScreenState extends State<QTAddUsersScreen> {
                               spreadRadius: 7,
                               color: Colors.grey.withOpacity(0.2),
                               blurRadius: 10,
-                              offset: Offset(1, 1),
+                              offset: const Offset(1, 1),
                             ),
                           ]),
                       child: TextField(
-                        controller: mahocphanController,
+                        controller: tenmonhocphanController,
                         decoration: InputDecoration(
-                            hintText: 'Mã học phần',
-                            prefixIcon: Icon(Icons.email,color: Colors.blueAccent,),
+                            hintText: 'Tên môn học:',
+                            prefixIcon: const Icon(
+                              Icons.password_outlined,
+                              color: Colors.blueAccent,
+                            ),
                             focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(30),
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                     color: Colors.white, width: 1.0)),
                             enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(30),
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                     color: Colors.white, width: 1.0)),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(30),
                             )),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(30),
+                          boxShadow: [
+                            BoxShadow(
+                              spreadRadius: 7,
+                              color: Colors.grey.withOpacity(0.2),
+                              blurRadius: 10,
+                              offset: const Offset(1, 1),
+                            ),
+                          ]),
+                      child: TextField(
+                        controller: mahocphanController,
+                        decoration: InputDecoration(
+                            hintText: 'Mã học phần',
+                            prefixIcon: const Icon(
+                              Icons.email,
+                              color: Colors.blueAccent,
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(30),
+                                borderSide: const BorderSide(
+                                    color: Colors.white, width: 1.0)),
+                            enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(30),
+                                borderSide: const BorderSide(
+                                    color: Colors.white, width: 1.0)),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            )),
+                      ),
+                    ),
+                    const SizedBox(
                       height: 20,
                     ),
                     Row(
@@ -153,13 +197,14 @@ class _QTAddUsersScreenState extends State<QTAddUsersScreen> {
                         Expanded(child: Container()),
                         Text(
                           '',
-                          style: TextStyle(fontSize: 17, color: Colors.grey[500]),
+                          style:
+                              TextStyle(fontSize: 17, color: Colors.grey[500]),
                         ),
                       ],
                     ),
                   ]),
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
             Container(
@@ -168,28 +213,32 @@ class _QTAddUsersScreenState extends State<QTAddUsersScreen> {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(30),
                   color: Colors.blueAccent
-                // image: DecorationImage(
-                //     image: AssetImage("images/loginbtn.png"),
-                //     fit: BoxFit.cover),
-              ),
+                  // image: DecorationImage(
+                  //     image: AssetImage("images/loginbtn.png"),
+                  //     fit: BoxFit.cover),
+                  ),
               child: Center(
                 child: InkWell(
-                  onTap: (){
-
-                    if (textEmailHSController.text.isNotEmpty && textEmailGVController.text.isNotEmpty) {
+                  onTap: () {
+                    if (textEmailHSController.text.isNotEmpty &&
+                        textEmailGVController.text.isNotEmpty) {
                       // Thêm địa chỉ email vào danh sách
-                      List<String> emailHSList = textEmailHSController.text.split(',');
+                      List<String> emailHSList =
+                          textEmailHSController.text.split(',');
                       emailList.addAll(emailHSList);
 
-                      APIs.addChatUser(emailList,textEmailGVController.text, mahocphanController.text);
+                      APIs.addChatUser(
+                          emailList,
+                          textEmailGVController.text,
+                          mahocphanController.text,
+                          tenmonhocphanController.text);
                       // Xóa nội dung trường địa chỉ email sau khi thêm vào danh sách
                       //textEmailHSController.clear();
                     }
                     // In danh sách email
                     print(emailList);
-
                   },
-                  child: Text(
+                  child: const Text(
                     'Thêm sinh viên cho giáo viên',
                     style: TextStyle(
                         fontSize: 23,
@@ -199,10 +248,9 @@ class _QTAddUsersScreenState extends State<QTAddUsersScreen> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 26,
             ),
-
           ],
         ),
       ),

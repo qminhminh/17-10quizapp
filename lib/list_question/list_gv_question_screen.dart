@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -19,8 +18,8 @@ class ListQuestionGVScreen extends StatefulWidget {
 
 class _ListQuestionScreenState extends State<ListQuestionGVScreen> {
   List<QuestionModel> list = [];
-  List<QuestionModel> searchlist =[];
-  bool _isSearching=false;
+  List<QuestionModel> searchlist = [];
+  bool _isSearching = false;
   final CountdownController countdownController = CountdownController();
   final quesionController = TextEditingController();
   final option1Controller = TextEditingController();
@@ -38,57 +37,66 @@ class _ListQuestionScreenState extends State<ListQuestionGVScreen> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: ()=> FocusScope.of(context).unfocus(),
+      onTap: () => FocusScope.of(context).unfocus(),
       child: WillPopScope(
         onWillPop: () {
-          if(_isSearching){
+          if (_isSearching) {
             setState(() {
               _isSearching = !_isSearching;
             });
             return Future.value(false);
-          }
-          else{
+          } else {
             return Future.value(true);
           }
-
         },
         child: Scaffold(
           appBar: AppBar(
-            title:  _isSearching ? TextField(
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: 'Name, Text.....',
-              ),
-              autofocus: true,
-              style: TextStyle(fontSize: 16,letterSpacing: 0.5),
-              //when search text changes then updatesd search list
-              onChanged: (val){
-                searchlist.clear();
+            title: _isSearching
+                ? TextField(
+                    decoration: const InputDecoration(
+                      border: InputBorder.none,
+                      hintText: 'Name, Text.....',
+                    ),
+                    autofocus: true,
+                    style: const TextStyle(fontSize: 16, letterSpacing: 0.5),
+                    //when search text changes then updatesd search list
+                    onChanged: (val) {
+                      searchlist.clear();
 
-                for(var i in list){
-                  if(i.question.toLowerCase().contains(val.toLowerCase()) || i.optioncorrect.toLowerCase().contains(val.toLowerCase())){
-                    searchlist.add(i);
-                  }
-                  setState(() {
-                    searchlist;
-                  });
-                }
-              },
-            ): Text('Thi'),
+                      for (var i in list) {
+                        if (i.question
+                                .toLowerCase()
+                                .contains(val.toLowerCase()) ||
+                            i.optioncorrect
+                                .toLowerCase()
+                                .contains(val.toLowerCase())) {
+                          searchlist.add(i);
+                        }
+                        setState(() {
+                          searchlist;
+                        });
+                      }
+                    },
+                  )
+                : const Text('Thi'),
             actions: [
               IconButton(
-                  onPressed: (){
+                  onPressed: () {
                     setState(() {
                       _isSearching = !_isSearching;
                     });
-                  }, icon: Icon(_isSearching ? CupertinoIcons.clear_circled_solid : Icons.search)),
-              Obx(() => Text('Time: ${countdownController.minutes.value}:${countdownController.seconds.value.toString().padLeft(2, '0')}')),
+                  },
+                  icon: Icon(_isSearching
+                      ? CupertinoIcons.clear_circled_solid
+                      : Icons.search)),
+              Obx(() => Text(
+                  'Time: ${countdownController.minutes.value}:${countdownController.seconds.value.toString().padLeft(2, '0')}')),
               TextButton(
                 onPressed: () {
                   // Handle the "Nộp bài" button click.
                   _showBottomSheetText();
                 },
-                child: Text('Tạo'),
+                child: const Text('Tạo'),
               ),
             ],
           ),
@@ -96,22 +104,31 @@ class _ListQuestionScreenState extends State<ListQuestionGVScreen> {
             children: [
               Expanded(
                 child: StreamBuilder(
-                  stream: APIs.getQuestion(widget.model.subjectcode, widget.model.id),
+                  stream: APIs.getQuestion(
+                      widget.model.subjectcode, widget.model.id),
                   builder: (context, snapshot) {
                     switch (snapshot.connectionState) {
                       case ConnectionState.waiting:
                       case ConnectionState.none:
-                        return Center(child: CircularProgressIndicator());
+                        return const Center(child: CircularProgressIndicator());
                       case ConnectionState.active:
                       case ConnectionState.done:
                         final date = snapshot.data?.docs;
-                        list = date?.map((e) => QuestionModel.fromJson(e.data())).toList() ?? [];
+                        list = date
+                                ?.map((e) => QuestionModel.fromJson(e.data()))
+                                .toList() ??
+                            [];
                         return ListView.builder(
-                          physics: BouncingScrollPhysics(),
-                          padding: EdgeInsets.all(10),
-                          itemCount: _isSearching ? searchlist.length : list.length,
+                          physics: const BouncingScrollPhysics(),
+                          padding: const EdgeInsets.all(10),
+                          itemCount:
+                              _isSearching ? searchlist.length : list.length,
                           itemBuilder: (context, index) {
-                            return QuestionCardGVScreen(model: _isSearching ? searchlist[index] :  list[index], index: index);
+                            return QuestionCardGVScreen(
+                                model: _isSearching
+                                    ? searchlist[index]
+                                    : list[index],
+                                index: index);
                           },
                         );
                     }
@@ -128,7 +145,7 @@ class _ListQuestionScreenState extends State<ListQuestionGVScreen> {
   void _showBottomSheetText() {
     showModalBottomSheet(
       context: context,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(20),
           topRight: Radius.circular(20),
@@ -138,8 +155,8 @@ class _ListQuestionScreenState extends State<ListQuestionGVScreen> {
         return SingleChildScrollView(
           child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
+              const Padding(
+                padding: EdgeInsets.all(8.0),
                 child: Text(
                   'Thay đổi mô tả',
                   style: TextStyle(
@@ -149,21 +166,34 @@ class _ListQuestionScreenState extends State<ListQuestionGVScreen> {
                   textAlign: TextAlign.center,
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
-                  if(option1Controller.text !=null && option2Controller.text !=null && option3Controller.text !=null && option4Controller.text !=null&& optioncorrectController.text !=null && quesionController.text != null){
-                    APIs.createQuestionandAnswer(option1Controller.text, option2Controller.text,option3Controller.text, option4Controller.text, optioncorrectController.text, quesionController.text, widget.model.namesubject, widget.model.subjectcode);
+                  if (option1Controller.text != null &&
+                      option2Controller.text != null &&
+                      option3Controller.text != null &&
+                      option4Controller.text != null &&
+                      optioncorrectController.text != null &&
+                      quesionController.text != null) {
+                    APIs.createQuestionandAnswer(
+                        option1Controller.text,
+                        option2Controller.text,
+                        option3Controller.text,
+                        option4Controller.text,
+                        optioncorrectController.text,
+                        quesionController.text,
+                        widget.model.namesubject,
+                        widget.model.subjectcode);
                     Dialogs.showSnacker(context, 'Thêm câu hỏi thành công ');
-                    option1Controller.text='';
-                    option2Controller.text='';
-                    option3Controller.text='';
-                    option4Controller.text='';
-                    optioncorrectController.text ='';
-                    quesionController.text ='';
+                    option1Controller.text = '';
+                    option2Controller.text = '';
+                    option3Controller.text = '';
+                    option4Controller.text = '';
+                    optioncorrectController.text = '';
+                    quesionController.text = '';
                   }
                 },
-                child: Text('Cập nhật'),
+                child: const Text('Cập nhật'),
               ),
               _buildInputField(
                 label: 'Nhập câu hỏi:',
@@ -195,7 +225,6 @@ class _ListQuestionScreenState extends State<ListQuestionGVScreen> {
                 controller: optioncorrectController,
                 hint: 'vd: 5,..',
               ),
-
             ],
           ),
         );
@@ -214,7 +243,7 @@ class _ListQuestionScreenState extends State<ListQuestionGVScreen> {
         children: [
           Text(
             label,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
             ),

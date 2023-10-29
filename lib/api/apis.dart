@@ -9,6 +9,7 @@ import 'package:thutext/models/giao_vien/create_description_model.dart';
 import 'package:thutext/models/giao_vien/create_question_model.dart';
 import 'package:thutext/models/hoc_sinh/score_model.dart';
 import 'package:thutext/models/notice_model.dart';
+import 'package:thutext/models/quan_tri/malopgv_model.dart';
 import 'package:thutext/models/user_model.dart';
 import 'package:http/http.dart' as http;
 
@@ -34,12 +35,12 @@ class APIs {
           checkuser: a,
           about: '',
           pushtoken: '',
-          isOnline: false
-      );
-     await firestore.collection("users").doc(auth.currentUser!.uid).set(userModel.toJson());
-
-    }
-     catch(e){
+          isOnline: false);
+      await firestore
+          .collection("users")
+          .doc(auth.currentUser!.uid)
+          .set(userModel.toJson());
+    } catch (e) {
       print('$e');
       return null;
     }
@@ -95,7 +96,21 @@ class APIs {
 
   // thêm sinh viên cho giáo viên
   static Future<void> addChatUser(
-      List<String> emailHS, String emailGV, String mahp) async {
+      List<String> emailHS, String emailGV, String mahp, String monhoc) async {
+    final time = DateTime.now().millisecondsSinceEpoch.toString();
+
+    final classModel = ClassGVModel(time: time, tenmon: monhoc, mahhp: mahp);
+    final dagv = await firestore
+        .collection('users')
+        .where('email', isEqualTo: emailGV)
+        .get();
+
+    await firestore
+        .collection('classgv')
+        .doc(dagv.docs.first.id)
+        .collection('ma')
+        .doc(time)
+        .set(classModel.toJson());
     for (String email in emailHS) {
       final dataHS = await firestore
           .collection('users')
@@ -185,10 +200,12 @@ class APIs {
         .doc(message.sent)
         .delete();
     if (message.type == Type.image)
+      // ignore: curly_braces_in_flow_control_structures
       firebaseStorage.refFromURL(message.msg).delete();
   }
 
   // update mess
+  // ignore: non_constant_identifier_names
   static Future<void> UpdateMessa(Message message, String updateMsg) async {
     await firestore
         .collection('chats/${getConvertsationID(message.toId)}/messages/')
@@ -317,6 +334,7 @@ class APIs {
           .set(userModel.toJson());
     } catch (e) {
       print('$e');
+      // ignore: avoid_returning_null_for_void
       return null;
     }
   }

@@ -7,9 +7,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import '../helpers/dialogs.dart';
 import '../models/message.dart';
 
+// ignore: must_be_immutable
 class ImageProfile extends StatefulWidget {
   Message message;
-  ImageProfile({super.key,required this.message});
+  ImageProfile({super.key, required this.message});
 
   @override
   State<ImageProfile> createState() => _ImageProfileState();
@@ -20,16 +21,16 @@ class _ImageProfileState extends State<ImageProfile> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: ()=> FocusScope.of(context).unfocus(),
+      onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Profile Image'),
+          title: const Text('Profile Image'),
           actions: [
             IconButton(
                 onPressed: () async {
                   try {
                     var response = await Dio().get(
-                      "${widget.message.msg}",
+                      widget.message.msg,
                       options: Options(responseType: ResponseType.bytes),
                     );
                     final result = await ImageGallerySaver.saveImage(
@@ -37,6 +38,7 @@ class _ImageProfileState extends State<ImageProfile> {
                     );
                     if (result != null && result['isSuccess']) {
                       log("Image saved successfully!");
+                      // ignore: use_build_context_synchronously
                       Dialogs.showSnacker(context, 'Save Image Success');
                     } else {
                       log("Image saving failed.");
@@ -45,13 +47,12 @@ class _ImageProfileState extends State<ImageProfile> {
                     log("Error saving image: $error");
                   }
                 },
-                icon: Icon(Icons.download)
-            ),
+                icon: const Icon(Icons.download)),
           ],
         ),
         body: Center(
           child: InkWell(
-            onDoubleTap: (){
+            onDoubleTap: () {
               setState(() {
                 // Toggle the image scale between 1.0 (original) and 2.0 (enlarged)
                 imageScale = imageScale == 1.0 ? 2.0 : 1.0;
@@ -63,11 +64,14 @@ class _ImageProfileState extends State<ImageProfile> {
                 scale: imageScale, // Apply the scale to the image
                 child: CachedNetworkImage(
                   imageUrl: widget.message.msg,
-                  placeholder: (context, url) => Padding(
+                  placeholder: (context, url) => const Padding(
                     padding: EdgeInsets.all(8.0),
                     child: CircularProgressIndicator(),
                   ),
-                  errorWidget: (context, url, error) => Icon(Icons.image,size: 70,),
+                  errorWidget: (context, url, error) => const Icon(
+                    Icons.image,
+                    size: 70,
+                  ),
                 ),
               ),
             ),
