@@ -1,10 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:thutext/screen/giaovien_screen/bottom_screen/bottom_home_gv_screen.dart';
 import 'package:thutext/screen/giaovien_screen/bottom_screen/bottom_notice_gv_screen.dart';
 import 'package:thutext/screen/giaovien_screen/bottom_screen/bottom_profile_gv_screen.dart';
-
 import '../../api/apis.dart';
 
 class GVHomeScreen extends StatefulWidget {
@@ -35,8 +33,10 @@ class _GVHomeScreenState extends State<GVHomeScreen> {
       SystemChannels.lifecycle.setMessageHandler((message) {
         if (APIs.auth.currentUser != null) {
           if (message.toString().contains('resume'))
+            // ignore: curly_braces_in_flow_control_structures
             APIs.updateActiveStatus(true);
           if (message.toString().contains('pause'))
+            // ignore: curly_braces_in_flow_control_structures
             APIs.updateActiveStatus(false);
         }
         return Future.value(message);
