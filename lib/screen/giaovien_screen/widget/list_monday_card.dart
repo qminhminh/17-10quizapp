@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:thutext/models/quan_tri/malopgv_model.dart';
+import 'package:thutext/screen/giaovien_screen/widget/hs_of_gv.dart';
 
 class MonDayOfGvCard extends StatefulWidget {
   final ClassGVModel model;
@@ -13,7 +14,18 @@ class _MonDayOfGvCardState extends State<MonDayOfGvCard> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) {
+              return HSOFGv(
+                model: widget.model,
+              );
+            },
+          ),
+        );
+      },
       child: Card(
         color: Colors.white,
         elevation: 5, // Increase the elevation for a shadow effect

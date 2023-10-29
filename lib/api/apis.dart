@@ -228,6 +228,14 @@ class APIs {
         .snapshots();
   }
 
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getAllHSMaHP(String mahp) {
+    return firestore
+        .collection('SeeScoreGV')
+        .doc(mahp)
+        .collection('score')
+        .snapshots();
+  }
+
   static Stream<QuerySnapshot<Map<String, dynamic>>> getMonOFGV() {
     return firestore
         .collection('classgv')
