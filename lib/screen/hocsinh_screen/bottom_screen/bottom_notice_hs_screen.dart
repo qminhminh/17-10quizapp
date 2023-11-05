@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:thutext/api/apis.dart';
+import 'package:thutext/loader.dart';
 import 'package:thutext/models/notice_model.dart';
 import 'package:thutext/widgets/notice_card.dart';
 
@@ -103,21 +104,26 @@ class _BottomNoticeHSScreenState extends State<BottomNoticeHSScreen> {
                                   .toList() ??
                               [];
                           if (list.isNotEmpty) {
-                            return ListView.builder(
-                              itemCount: _isSearching
-                                  ? searchlist.length
-                                  : list.length,
-                              padding: const EdgeInsets.only(top: 2),
-                              physics: const BouncingScrollPhysics(),
-                              itemBuilder: (context, index) {
-                                return NoticeCard(
-                                  noteMod: _isSearching
-                                      ? searchlist[index]
-                                      : list[index],
-                                );
-                                // return Text('Name: ${list[index].name}'); // Thay thế tên biến phù hợp
-                              },
-                            );
+                            return list == null
+                                ? const Loader()
+                                : list.isEmpty
+                                    ? const Center(
+                                        child: Text('No messages available'))
+                                    : ListView.builder(
+                                        itemCount: _isSearching
+                                            ? searchlist.length
+                                            : list.length,
+                                        padding: const EdgeInsets.only(top: 2),
+                                        physics: const BouncingScrollPhysics(),
+                                        itemBuilder: (context, index) {
+                                          return NoticeCard(
+                                            noteMod: _isSearching
+                                                ? searchlist[index]
+                                                : list[index],
+                                          );
+                                          // return Text('Name: ${list[index].name}'); // Thay thế tên biến phù hợp
+                                        },
+                                      );
                           } else {
                             return const Center(
                                 child: Text(

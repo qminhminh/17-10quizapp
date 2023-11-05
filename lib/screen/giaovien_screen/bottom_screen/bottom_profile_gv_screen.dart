@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:thutext/api/apis.dart';
 import 'package:thutext/helpers/dialogs.dart';
+import 'package:thutext/loader.dart';
 import 'package:thutext/models/user_model.dart';
 import 'package:thutext/profile_screen.dart';
 import 'package:thutext/widgets/chat_user_card.dart';
@@ -134,20 +135,27 @@ class _BottomProfileGVScreenState extends State<BottomProfileGVScreen> {
                                     .toList() ??
                                 [];
                             if (list.isNotEmpty) {
-                              return ListView.builder(
-                                itemCount: _isSearching
-                                    ? searchlist.length
-                                    : list.length,
-                                padding: const EdgeInsets.only(top: 2),
-                                physics: const BouncingScrollPhysics(),
-                                itemBuilder: (context, index) {
-                                  return CharUserCard(
-                                      user: _isSearching
-                                          ? searchlist[index]
-                                          : list[index]);
-                                  // return Text('Name: ${list[index].name}'); // Thay thế tên biến phù hợp
-                                },
-                              );
+                              return list == null
+                                  ? const Loader()
+                                  : list.isEmpty
+                                      ? const Center(
+                                          child: Text('No messages available'))
+                                      : ListView.builder(
+                                          itemCount: _isSearching
+                                              ? searchlist.length
+                                              : list.length,
+                                          padding:
+                                              const EdgeInsets.only(top: 2),
+                                          physics:
+                                              const BouncingScrollPhysics(),
+                                          itemBuilder: (context, index) {
+                                            return CharUserCard(
+                                                user: _isSearching
+                                                    ? searchlist[index]
+                                                    : list[index]);
+                                            // return Text('Name: ${list[index].name}'); // Thay thế tên biến phù hợp
+                                          },
+                                        );
                             } else {
                               return const Center(
                                   child: Text(

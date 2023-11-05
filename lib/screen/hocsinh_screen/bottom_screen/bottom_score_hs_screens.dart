@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:thutext/api/apis.dart';
+import 'package:thutext/loader.dart';
 import 'package:thutext/models/hoc_sinh/notice_score.dart';
 import 'package:thutext/screen/hocsinh_screen/widget/list_socre_card_hs.dart';
 
@@ -86,16 +87,24 @@ class _BottomScoreHSScreensState extends State<BottomScoreHSScreens> {
                           .toList() ??
                       [];
                   if (snapshot.hasData) {
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      physics: const BouncingScrollPhysics(),
-                      itemCount: _isSearching ? searchlist.length : list.length,
-                      itemBuilder: (context, index) {
-                        return ScoreCardHs(
-                          model: _isSearching ? searchlist[index] : list[index],
-                        );
-                      },
-                    );
+                    return list == null
+                        ? const Loader()
+                        : list.isEmpty
+                            ? const Center(child: Text('No messages available'))
+                            : ListView.builder(
+                                shrinkWrap: true,
+                                physics: const BouncingScrollPhysics(),
+                                itemCount: _isSearching
+                                    ? searchlist.length
+                                    : list.length,
+                                itemBuilder: (context, index) {
+                                  return ScoreCardHs(
+                                    model: _isSearching
+                                        ? searchlist[index]
+                                        : list[index],
+                                  );
+                                },
+                              );
                   } else {
                     return const Center(
                       child: CircularProgressIndicator(),

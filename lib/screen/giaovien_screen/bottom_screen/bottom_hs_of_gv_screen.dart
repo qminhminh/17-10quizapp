@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:thutext/api/apis.dart';
+import 'package:thutext/loader.dart';
 import 'package:thutext/models/quan_tri/malopgv_model.dart';
 import 'package:thutext/screen/giaovien_screen/widget/list_monday_card.dart';
 
@@ -36,16 +37,20 @@ class _BottomHSOfGVScreenState extends State<BottomHSOfGVScreen> {
                   data.map((e) => ClassGVModel.fromJson(e.data())).toList() ??
                       [];
               if (list.isNotEmpty) {
-                return ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: list.length,
-                    physics: const BouncingScrollPhysics(),
-                    padding: const EdgeInsets.all(6),
-                    itemBuilder: (context, intdex) {
-                      return MonDayOfGvCard(
-                        model: list[intdex],
-                      );
-                    });
+                return list == null
+                    ? const Loader()
+                    : list.isEmpty
+                        ? const Center(child: Text('No messages available'))
+                        : ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: list.length,
+                            physics: const BouncingScrollPhysics(),
+                            padding: const EdgeInsets.all(6),
+                            itemBuilder: (context, intdex) {
+                              return MonDayOfGvCard(
+                                model: list[intdex],
+                              );
+                            });
               } else {
                 return const Center(
                     child: Text(

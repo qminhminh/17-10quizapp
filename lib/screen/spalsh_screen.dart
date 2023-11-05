@@ -18,24 +18,23 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     Future.delayed(const Duration(seconds: 2), () async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      if (prefs.getString('hs') == '0') {
-        // ignore: use_build_context_synchronously
-        Navigator.push(
-            context, MaterialPageRoute(builder: (_) => const HSHomeScreen()));
-      }
-      if (prefs.getString('gv') == '1') {
-        // ignore: use_build_context_synchronously
-        Navigator.push(
-            context, MaterialPageRoute(builder: (_) => const GVHomeScreen()));
-      }
-      if (prefs.getString('qt') == '2') {
-        // ignore: use_build_context_synchronously
-        Navigator.push(
-            context, MaterialPageRoute(builder: (_) => const QTHomeScreen()));
-      } else {
+      String? email = prefs.getString('email');
+      if (email == null || email.isEmpty) {
         // ignore: use_build_context_synchronously
         Navigator.push(
             context, MaterialPageRoute(builder: (_) => const LoginScreen()));
+      } else if (email!.contains('hs')) {
+        // ignore: use_build_context_synchronously
+        Navigator.push(
+            context, MaterialPageRoute(builder: (_) => const HSHomeScreen()));
+      } else if (email!.contains('gv')) {
+        // ignore: use_build_context_synchronously
+        Navigator.push(
+            context, MaterialPageRoute(builder: (_) => const GVHomeScreen()));
+      } else if (email!.contains('qt')) {
+        // ignore: use_build_context_synchronously
+        Navigator.push(
+            context, MaterialPageRoute(builder: (_) => const QTHomeScreen()));
       }
     });
   }

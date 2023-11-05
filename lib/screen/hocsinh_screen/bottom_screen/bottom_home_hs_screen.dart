@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:thutext/api/apis.dart';
+import 'package:thutext/loader.dart';
 import 'package:thutext/models/giao_vien/create_description_model.dart';
 import 'package:thutext/widgets/hs_description_card.dart';
 
@@ -17,8 +18,7 @@ class _BottomHomeHSScreenState extends State<BottomHomeHSScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Question Text'),
-        leading: const Text(''),
+        title: const Text('Các Môn'),
         automaticallyImplyLeading: false,
       ),
       body: StreamBuilder(
@@ -50,23 +50,21 @@ class _BottomHomeHSScreenState extends State<BottomHomeHSScreen> {
                                       CreateDescriptMode.fromJson(e.data()))
                                   .toList() ??
                               [];
-                          if (list.isNotEmpty) {
-                            return ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: list.length,
-                              physics: const BouncingScrollPhysics(),
-                              padding: const EdgeInsets.all(6),
-                              itemBuilder: (context, index) {
-                                return HSDesQesCard(model: list[index]);
-                              },
-                            );
-                          } else {
-                            return const Center(
-                                child: Text(
-                              'Chưa có học phần nào',
-                              style: TextStyle(fontSize: 20),
-                            ));
-                          }
+
+                          return list == null
+                              ? const Loader()
+                              : list.isEmpty
+                                  ? const Center(
+                                      child: Text('No messages available'))
+                                  : ListView.builder(
+                                      shrinkWrap: true,
+                                      itemCount: list.length,
+                                      physics: const BouncingScrollPhysics(),
+                                      padding: const EdgeInsets.all(6),
+                                      itemBuilder: (context, index) {
+                                        return HSDesQesCard(model: list[index]);
+                                      },
+                                    );
                       }
                     });
             }

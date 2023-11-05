@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:thutext/api/apis.dart';
+import 'package:thutext/loader.dart';
 import 'package:thutext/screen/giaovien_screen/create_question/create_question_screen.dart';
 import '../../../models/giao_vien/create_description_model.dart';
 import '../../../widgets/descript_giaoviden_ques.dart';
@@ -66,15 +67,20 @@ class _BottomHomeGVScreenState extends State<BottomHomeGVcreen> {
                         [];
 
                     if (list.isNotEmpty) {
-                      return ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: list.length,
-                        physics: const BouncingScrollPhysics(),
-                        padding: const EdgeInsets.all(6),
-                        itemBuilder: (context, index) {
-                          return DesGVQesCard(model: list[index]);
-                        },
-                      );
+                      return list == null
+                          ? const Loader()
+                          : list.isEmpty
+                              ? const Center(
+                                  child: Text('No messages available'))
+                              : ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: list.length,
+                                  physics: const BouncingScrollPhysics(),
+                                  padding: const EdgeInsets.all(6),
+                                  itemBuilder: (context, index) {
+                                    return DesGVQesCard(model: list[index]);
+                                  },
+                                );
                     } else {
                       return const Center(
                           child: Text(
