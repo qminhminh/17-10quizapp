@@ -72,7 +72,7 @@ class _BottomNoticeGVcreenState extends State<BottomNoticeGVcreen> {
             ],
           ),
           body: StreamBuilder(
-            stream: APIs.getChatId(),
+            stream: APIs.getNoticeId(),
             builder: (context, snapshot) {
               switch (snapshot.connectionState) {
                 case ConnectionState.waiting:

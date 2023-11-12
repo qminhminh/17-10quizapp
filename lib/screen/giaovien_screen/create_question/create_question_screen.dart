@@ -68,6 +68,9 @@ class _CreateQuestionGVScreenState extends State<CreateQuestionGVScreen> {
                               timetextController.text,
                               ourController.text,
                               minusController.text);
+
+                          APIs.createNotice(
+                              ' ${subjectTitleController.text} đã đăng bài kiểm tra mới ');
                           Dialogs.showSnacker(
                               context, 'Thêm mô tả thành công ');
                         }

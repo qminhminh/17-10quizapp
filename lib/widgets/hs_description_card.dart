@@ -4,6 +4,7 @@ import 'package:thutext/screen/hocsinh_screen/start_screen/start_screen.dart';
 import '../models/giao_vien/create_description_model.dart';
 
 class HSDesQesCard extends StatefulWidget {
+  // ignore: use_key_in_widget_constructors
   const HSDesQesCard({Key? key, required this.model});
   final CreateDescriptMode model;
 

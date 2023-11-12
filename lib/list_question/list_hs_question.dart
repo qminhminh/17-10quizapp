@@ -9,6 +9,7 @@ import '../models/giao_vien/create_question_model.dart';
 import '../screen/hocsinh_screen/widget/list_hs_question_card.dart';
 
 class ListQuestionHSScreen extends StatefulWidget {
+  // ignore: use_key_in_widget_constructors
   const ListQuestionHSScreen({Key? key, required this.model});
   final CreateDescriptMode model;
 
@@ -26,6 +27,27 @@ class _ListQuestionScreenState extends State<ListQuestionHSScreen> {
   void initState() {
     super.initState();
     countdownController.startCountdown(int.parse(widget.model.timeQues));
+
+    countdownController.isRunning.listen((isRunning) {
+      if (isRunning &&
+          countdownController.minutes.value == 0 &&
+          countdownController.seconds.value == 0) {
+        APIs.SeeScoreGV(
+            '${countdownController.minutes.value}:${countdownController.seconds.value.toString().padLeft(2, '0')}',
+            totalScore,
+            widget.model.subjectcode);
+
+        APIs.NoticeSeeScoreHS(
+            '${countdownController.minutes.value}:${countdownController.seconds.value.toString().padLeft(2, '0')}',
+            totalScore,
+            widget.model.subjectcode,
+            widget.model
+                .namesubject); // Replace '/home' with your home screen route
+        countdownController.stop();
+        Dialogs.showSnackBar(context,
+            'Bạn đã nộp bài thành công \n Điểm của bạn là $totalScore');
+      }
+    });
     getDataFromFirestore();
   }
 
