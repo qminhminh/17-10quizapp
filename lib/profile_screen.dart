@@ -39,7 +39,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             await APIs.updateActiveStatus(false);
             // ignore: use_build_context_synchronously
             Dialogs.showProgressBar(context);
-            prefs.setString('email', '');
+            prefs.remove('email');
 
             await FirebaseAuth.instance.signOut().then((value) async {
               Navigator.pop(context);
