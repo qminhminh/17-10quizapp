@@ -14,13 +14,13 @@ class Message {
   late final String fromId;
   late final String sent;
 
-  Message.fromJson(Map<String, dynamic> json){
-    toId = json['toId'].toString() ?? '';
-    msg = json['msg'].toString() ?? '';
-    read = json['read'].toString() ?? '';
+  Message.fromJson(Map<String, dynamic> json) {
+    toId = json['toId'].toString();
+    msg = json['msg'].toString();
+    read = json['read'].toString();
     type = json['type'].toString() == Type.image.name ? Type.image : Type.text;
-    fromId = json['fromId'].toString() ?? '';
-    sent = json['sent'].toString() ?? '';
+    fromId = json['fromId'].toString();
+    sent = json['sent'].toString();
   }
 
   Map<String, dynamic> toJson() {
@@ -33,6 +33,6 @@ class Message {
     data['sent'] = sent;
     return data;
   }
-
 }
-enum Type{text,image}
+
+enum Type { text, image }

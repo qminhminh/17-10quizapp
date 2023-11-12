@@ -1,7 +1,8 @@
+// ignore_for_file: avoid_print
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:thutext/api/apis.dart';
 import 'package:thutext/screen/auth/signup_screen.dart';
 import '../../helpers/dialogs.dart';
 import '../giaovien_screen/gv_home_screen.dart';
@@ -26,6 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
         password: textPassWordController.text,
       );
     } catch (e) {
+      // ignore: unnecessary_brace_in_string_interps
       print('${e}');
       Dialogs.showSnacker(context, 'Something went Wrong Check Internet');
       return null;

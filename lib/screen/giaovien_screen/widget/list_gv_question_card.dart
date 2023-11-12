@@ -1,3 +1,4 @@
+// ignore_for_file: unnecessary_null_comparison, avoid_print
 import 'package:flutter/material.dart';
 import 'package:thutext/api/apis.dart';
 import '../../../helpers/dialogs.dart';
@@ -40,7 +41,7 @@ class _QuestionCardScreenState extends State<QuestionCardGVScreen> {
                   style: const TextStyle(
                       fontWeight: FontWeight.bold, fontSize: 18),
                 ),
-                Text('${widget.model.question}',
+                Text(widget.model.question,
                     style: const TextStyle(
                         fontWeight: FontWeight.bold, fontSize: 18)),
                 const SizedBox(
@@ -91,12 +92,12 @@ class _QuestionCardScreenState extends State<QuestionCardGVScreen> {
                 }, itemBuilder: (context) {
                   return [
                     const PopupMenuItem(
-                      child: Text('Sửa'),
                       value: 'edit',
+                      child: Text('Sửa'),
                     ),
                     const PopupMenuItem(
-                      child: Text('Xóa'),
                       value: 'delete',
+                      child: Text('Xóa'),
                     ),
                   ];
                 }),
@@ -136,14 +137,13 @@ class _QuestionCardScreenState extends State<QuestionCardGVScreen> {
               ],
             ),
             RadioListTile(
-              value: '${widget.model.option1}',
+              value: widget.model.option1,
               groupValue: selectedAnswer,
               onChanged: (value) {
                 setState(() {
                   selectedAnswer = value!;
                   if (selectedAnswer == widget.model.optioncorrect) {
                     count++;
-                    print('Điểm số: ${count}');
                     APIs.createScore(count, widget.model.subjectcode);
 
                     print('Câu trả lời đúng!');
@@ -152,17 +152,34 @@ class _QuestionCardScreenState extends State<QuestionCardGVScreen> {
                   }
                 });
               },
-              title: Text('${widget.model.option1}'),
+              title: Text(widget.model.option1),
             ),
             RadioListTile(
-              value: '${widget.model.option2}',
+              value: widget.model.option2,
               groupValue: selectedAnswer,
               onChanged: (value) {
                 setState(() {
                   selectedAnswer = value!;
                   if (selectedAnswer == widget.model.optioncorrect) {
                     count++;
-                    print('Điểm số: ${count}');
+                    APIs.createScore(count, widget.model.subjectcode);
+                    // ignore: duplicate_ignore
+                  } else {
+                    print('Câu trả lời sai.');
+                  }
+                });
+              },
+              title: Text(widget.model.option2),
+            ),
+            RadioListTile(
+              value: widget.model.option3,
+              groupValue: selectedAnswer,
+              onChanged: (value) {
+                setState(() {
+                  selectedAnswer = value!;
+                  if (selectedAnswer == widget.model.optioncorrect) {
+                    count++;
+                    print('Điểm số: $count');
                     APIs.createScore(count, widget.model.subjectcode);
                     print('Câu trả lời đúng!');
                   } else {
@@ -170,35 +187,17 @@ class _QuestionCardScreenState extends State<QuestionCardGVScreen> {
                   }
                 });
               },
-              title: Text('${widget.model.option2}'),
+              title: Text(widget.model.option3),
             ),
             RadioListTile(
-              value: '${widget.model.option3}',
+              value: widget.model.option4,
               groupValue: selectedAnswer,
               onChanged: (value) {
                 setState(() {
                   selectedAnswer = value!;
                   if (selectedAnswer == widget.model.optioncorrect) {
                     count++;
-                    print('Điểm số: ${count}');
-                    APIs.createScore(count, widget.model.subjectcode);
-                    print('Câu trả lời đúng!');
-                  } else {
-                    print('Câu trả lời sai.');
-                  }
-                });
-              },
-              title: Text('${widget.model.option3}'),
-            ),
-            RadioListTile(
-              value: '${widget.model.option4}',
-              groupValue: selectedAnswer,
-              onChanged: (value) {
-                setState(() {
-                  selectedAnswer = value!;
-                  if (selectedAnswer == widget.model.optioncorrect) {
-                    count++;
-                    print('Điểm số: ${count}');
+                    print('Điểm số: $count');
                     APIs.createScore(count, widget.model.subjectcode);
 
                     print('Câu trả lời đúng!');
@@ -207,7 +206,7 @@ class _QuestionCardScreenState extends State<QuestionCardGVScreen> {
                   }
                 });
               },
-              title: Text('${widget.model.option4}'),
+              title: Text(widget.model.option4),
             ),
           ],
         ),

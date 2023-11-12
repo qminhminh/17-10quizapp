@@ -6,9 +6,11 @@ import '../../../models/giao_vien/create_description_model.dart';
 import '../../../widgets/descript_giaoviden_ques.dart';
 
 class BottomHomeGVcreen extends StatefulWidget {
+  // ignore: use_key_in_widget_constructors
   const BottomHomeGVcreen({Key? key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _BottomHomeGVScreenState createState() => _BottomHomeGVScreenState();
 }
 
@@ -67,6 +69,7 @@ class _BottomHomeGVScreenState extends State<BottomHomeGVcreen> {
                         [];
 
                     if (list.isNotEmpty) {
+                      // ignore: unnecessary_null_comparison
                       return list == null
                           ? const Loader()
                           : list.isEmpty

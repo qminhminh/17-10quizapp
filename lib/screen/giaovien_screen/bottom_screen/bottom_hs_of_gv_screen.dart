@@ -37,6 +37,7 @@ class _BottomHSOfGVScreenState extends State<BottomHSOfGVScreen> {
                   data.map((e) => ClassGVModel.fromJson(e.data())).toList() ??
                       [];
               if (list.isNotEmpty) {
+                // ignore: unnecessary_null_comparison
                 return list == null
                     ? const Loader()
                     : list.isEmpty

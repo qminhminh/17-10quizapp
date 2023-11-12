@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'package:flutter/material.dart';
 import 'package:thutext/api/apis.dart';
 import 'package:thutext/loader.dart';

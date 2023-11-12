@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,6 +11,7 @@ import '../models/giao_vien/create_question_model.dart';
 import '../screen/giaovien_screen/widget/list_gv_question_card.dart';
 
 class ListQuestionGVScreen extends StatefulWidget {
+  // ignore: use_key_in_widget_constructors
   const ListQuestionGVScreen({Key? key, required this.model});
   final CreateDescriptMode model;
 

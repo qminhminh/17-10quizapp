@@ -104,6 +104,7 @@ class _BottomNoticeGVcreenState extends State<BottomNoticeGVcreen> {
                                   .toList() ??
                               [];
                           if (list.isNotEmpty) {
+                            // ignore: unnecessary_null_comparison
                             return list == null
                                 ? const Loader()
                                 : list.isEmpty

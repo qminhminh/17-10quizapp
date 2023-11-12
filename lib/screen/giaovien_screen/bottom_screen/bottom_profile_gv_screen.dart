@@ -28,8 +28,10 @@ class _BottomProfileGVScreenState extends State<BottomProfileGVScreen> {
     SystemChannels.lifecycle.setMessageHandler((message) {
       if (APIs.auth.currentUser != null) {
         if (message.toString().contains('resume'))
+          // ignore: curly_braces_in_flow_control_structures
           APIs.updateActiveStatus(true);
         if (message.toString().contains('pause'))
+          // ignore: curly_braces_in_flow_control_structures
           APIs.updateActiveStatus(false);
       }
       return Future.value(message);
@@ -135,6 +137,7 @@ class _BottomProfileGVScreenState extends State<BottomProfileGVScreen> {
                                     .toList() ??
                                 [];
                             if (list.isNotEmpty) {
+                              // ignore: unnecessary_null_comparison
                               return list == null
                                   ? const Loader()
                                   : list.isEmpty

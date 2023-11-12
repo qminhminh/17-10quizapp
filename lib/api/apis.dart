@@ -45,7 +45,9 @@ class APIs {
           .doc(auth.currentUser!.uid)
           .set(userModel.toJson());
     } catch (e) {
+      // ignore: avoid_print
       print('$e');
+      // ignore: avoid_returning_null_for_void
       return null;
     }
   }
@@ -94,7 +96,9 @@ class APIs {
           .doc(time)
           .set(scoreHSModel.toJson());
     } catch (e) {
+      // ignore: avoid_print
       print('$e');
+      // ignore: avoid_returning_null_for_void
       return null;
     }
   }
@@ -249,7 +253,7 @@ class APIs {
   static Stream<QuerySnapshot<Map<String, dynamic>>> getMonOFGV() {
     return firestore
         .collection('classgv')
-        .doc(user!.uid)
+        .doc(user.uid)
         .collection('ma')
         .snapshots();
   }
@@ -405,11 +409,12 @@ class APIs {
       final userModel = ScoreModel(id: user!.uid, score: a, time: time);
       return await firestore
           .collection("scoreusers")
-          .doc(user!.uid)
+          .doc(user.uid)
           .collection(mahp)
           .doc(time)
           .set(userModel.toJson());
     } catch (e) {
+      // ignore: avoid_print
       print('$e');
       // ignore: avoid_returning_null_for_void
       return null;
@@ -447,10 +452,12 @@ class APIs {
           minus: minus);
       return await firestore
           .collection("createquesanddes")
-          .doc(user!.uid + subcode)
+          .doc(user.uid + subcode)
           .set(userModel.toJson());
     } catch (e) {
+      // ignore: avoid_print
       print('$e');
+      // ignore: avoid_returning_null_for_void
       return null;
     }
   }
@@ -481,12 +488,14 @@ class APIs {
           time: time);
       return await firestore
           .collection("createquesanddes")
-          .doc(user!.uid + subjectcode)
+          .doc(user.uid + subjectcode)
           .collection(subjectcode)
           .doc(time)
           .set(userModel.toJson());
     } catch (e) {
+      // ignore: avoid_print
       print('$e');
+      // ignore: avoid_returning_null_for_void
       return null;
     }
   }
@@ -509,7 +518,9 @@ class APIs {
           .doc(time)
           .set(noticeModel.toJson());
     } catch (e) {
+      // ignore: avoid_print
       print('$e');
+      // ignore: avoid_returning_null_for_void
       return null;
     }
   }
@@ -616,7 +627,7 @@ class APIs {
       String optionchoose) async {
     await firestore
         .collection("createquesanddes")
-        .doc(user!.uid + subcode)
+        .doc(user.uid + subcode)
         .collection(subcode)
         .doc(time)
         .update({
@@ -634,7 +645,7 @@ class APIs {
       String time, String subjectcode) async {
     await firestore
         .collection('createquesanddes')
-        .doc(user!.uid + subjectcode)
+        .doc(user.uid + subjectcode)
         .collection(subjectcode)
         .doc(time)
         .delete();
@@ -644,7 +655,7 @@ class APIs {
   static Future<void> gedeleteDesCriptionGV(String subjectcode) async {
     await firestore
         .collection('createquesanddes')
-        .doc(user!.uid + subjectcode)
+        .doc(user.uid + subjectcode)
         .delete();
   }
 
@@ -664,6 +675,7 @@ class APIs {
       // await FirebaseAuth.instance
     } on FirebaseAuthException catch (e) {
       if (e.code == 'requires-recent-login') {
+        // ignore: avoid_print
         print(
             'The user must reauthenticate before this operation can be executed.');
       }
