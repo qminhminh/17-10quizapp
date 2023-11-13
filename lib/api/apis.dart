@@ -258,6 +258,11 @@ class APIs {
         .snapshots();
   }
 
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getMonOFGVClass(
+      String id) {
+    return firestore.collection('classgv').doc(id).collection('ma').snapshots();
+  }
+
   static Stream<QuerySnapshot<Map<String, dynamic>>> getAllNOticeUser(
       List<String> userIds) {
     return firestore
@@ -372,6 +377,14 @@ class APIs {
     return firestore
         .collection('users')
         .doc(user.uid)
+        .collection('my_users')
+        .snapshots();
+  }
+
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getNoticeIdHS(String id) {
+    return firestore
+        .collection('users')
+        .doc(id)
         .collection('my_users')
         .snapshots();
   }

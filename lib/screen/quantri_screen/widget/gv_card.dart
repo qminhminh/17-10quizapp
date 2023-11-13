@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:thutext/api/apis.dart';
 import 'package:thutext/helpers/dialogs.dart';
 import 'package:thutext/models/user_model.dart';
+import 'package:thutext/screen/quantri_screen/widget/list_hs_ofgv.dart';
 
 class GVCard extends StatefulWidget {
   final UserModel model;
@@ -32,7 +33,16 @@ class _GVCardState extends State<GVCard> {
                 ),
               ),
             ),
-            title: Text(widget.model.name),
+            title: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => ListHSOFGV(
+                                model: widget.model,
+                              )));
+                },
+                child: Text(widget.model.name)),
             subtitle: Text(widget.model.email),
             trailing: IconButton(
                 onPressed: () {
