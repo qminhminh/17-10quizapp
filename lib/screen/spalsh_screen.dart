@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:thutext/screen/giaovien_screen/gv_home_screen.dart';
@@ -20,19 +22,15 @@ class _SplashScreenState extends State<SplashScreen> {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? email = prefs.getString('email');
       if (email == null || email.isEmpty) {
-        // ignore: use_build_context_synchronously
         Navigator.push(
             context, MaterialPageRoute(builder: (_) => const LoginScreen()));
-      } else if (email!.contains('hs')) {
-        // ignore: use_build_context_synchronously
+      } else if (email.contains('hs')) {
         Navigator.push(
             context, MaterialPageRoute(builder: (_) => const HSHomeScreen()));
-      } else if (email!.contains('gv')) {
-        // ignore: use_build_context_synchronously
+      } else if (email.contains('gv')) {
         Navigator.push(
             context, MaterialPageRoute(builder: (_) => const GVHomeScreen()));
-      } else if (email!.contains('qt')) {
-        // ignore: use_build_context_synchronously
+      } else if (email.contains('qt')) {
         Navigator.push(
             context, MaterialPageRoute(builder: (_) => const QTHomeScreen()));
       }
