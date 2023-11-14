@@ -29,7 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
     } catch (e) {
       // ignore: unnecessary_brace_in_string_interps
       print('${e}');
-      Dialogs.showSnacker(context, 'Something went Wrong Check Internet');
+      Dialogs.showSnacker(context, 'Có gì đó đã sai, kiểm tra Internet');
       return null;
     }
   }
@@ -46,7 +46,9 @@ class _LoginScreenState extends State<LoginScreen> {
               height: MediaQuery.of(context).size.height * 0.35,
               decoration: const BoxDecoration(
                 image: DecorationImage(
-                    image: AssetImage("images/login.svg"), fit: BoxFit.cover),
+                  image: AssetImage("images/RectTopBlue.png"),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
             Container(
