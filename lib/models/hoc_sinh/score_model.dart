@@ -5,10 +5,10 @@ class ScoreModel {
     required this.time,
   });
   late final String id;
-  late final int score;
+  late final double score;
   late final String time;
 
-  ScoreModel.fromJson(Map<String, dynamic> json){
+  ScoreModel.fromJson(Map<String, dynamic> json) {
     id = json['id'] ?? '';
     score = json['score'];
     time = json['time'] ?? '';

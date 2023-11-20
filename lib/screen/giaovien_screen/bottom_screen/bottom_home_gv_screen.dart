@@ -21,7 +21,7 @@ class _BottomHomeGVScreenState extends State<BottomHomeGVcreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Create Questions'),
+        title: const Text('Các môn'),
         automaticallyImplyLeading: false,
       ),
       body: SingleChildScrollView(
@@ -87,7 +87,7 @@ class _BottomHomeGVScreenState extends State<BottomHomeGVcreen> {
                     } else {
                       return const Center(
                           child: Text(
-                        'Chưa có bài nào',
+                        '',
                         style: TextStyle(fontSize: 20),
                       ));
                     }

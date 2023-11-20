@@ -5,8 +5,9 @@ import '../models/giao_vien/create_description_model.dart';
 
 class HSDesQesCard extends StatefulWidget {
   // ignore: use_key_in_widget_constructors
-  const HSDesQesCard({Key? key, required this.model});
+  const HSDesQesCard({Key? key, required this.model, required this.length});
   final CreateDescriptMode model;
+  final int length;
 
   @override
   State<HSDesQesCard> createState() => _DesGVQesCardState();
@@ -22,7 +23,10 @@ class _DesGVQesCardState extends State<HSDesQesCard> {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (_) => StartScreen(model: widget.model)));
+                builder: (_) => StartScreen(
+                      model: widget.model,
+                      length: widget.length,
+                    )));
       },
       child: Card(
         color: Colors.white,

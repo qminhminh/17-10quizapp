@@ -28,10 +28,11 @@ class APIs {
   static late UserModel me;
 
   // tạo tài khoản cho người dùng
-  static Future<void> createUser(String email, int a, String pass) async {
+  static Future<void> createUser(
+      String email, int a, String pass, String uidu) async {
     try {
       final userModel = UserModel(
-          id: auth.currentUser!.uid,
+          id: uidu,
           name: "",
           image: "",
           email: email,
@@ -40,10 +41,7 @@ class APIs {
           pushtoken: '',
           isOnline: false,
           password: pass);
-      await firestore
-          .collection("users")
-          .doc(auth.currentUser!.uid)
-          .set(userModel.toJson());
+      await firestore.collection("users").doc(uidu).set(userModel.toJson());
     } catch (e) {
       // ignore: avoid_print
       print('$e');
@@ -54,7 +52,7 @@ class APIs {
 
   // ignore: non_constant_identifier_names
   static Future<void> SeeScoreGV(
-      String timeques, int score, String mahp) async {
+      String timeques, double score, String mahp) async {
     final time = DateTime.now().millisecondsSinceEpoch.toString();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? email = prefs.getString('email');
@@ -75,7 +73,7 @@ class APIs {
 
   // ignore: non_constant_identifier_names
   static Future<void> NoticeSeeScoreHS(
-      String timeques, int score, String mahp, String namemh) async {
+      String timeques, double score, String mahp, String namemh) async {
     final time = DateTime.now().millisecondsSinceEpoch.toString();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? email = prefs.getString('email');
@@ -413,7 +411,7 @@ class APIs {
     return firestore.collection('userspost').snapshots();
   }
 
-  static Future<void> createScore(int a, String mahp) async {
+  static Future<void> createScore(double a, String mahp) async {
     final time = DateTime.now().millisecondsSinceEpoch.toString();
 
     try {

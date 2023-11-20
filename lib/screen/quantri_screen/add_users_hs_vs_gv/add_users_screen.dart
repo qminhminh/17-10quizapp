@@ -27,7 +27,8 @@ class _QTAddUsersScreenState extends State<QTAddUsersScreen> {
               height: MediaQuery.of(context).size.height * 0.35,
               decoration: const BoxDecoration(
                 image: DecorationImage(
-                    image: AssetImage("images/login.svg"), fit: BoxFit.cover),
+                    image: AssetImage("images/RectBtmBlue.png"),
+                    fit: BoxFit.cover),
               ),
             ),
             Container(
@@ -211,12 +212,12 @@ class _QTAddUsersScreenState extends State<QTAddUsersScreen> {
               width: MediaQuery.of(context).size.width * 0.5,
               height: MediaQuery.of(context).size.height * 0.08,
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
-                  color: Colors.blueAccent
-                  // image: DecorationImage(
-                  //     image: AssetImage("images/loginbtn.png"),
-                  //     fit: BoxFit.cover),
-                  ),
+                borderRadius: BorderRadius.circular(30),
+                color: Colors.blueAccent,
+                image: const DecorationImage(
+                    image: AssetImage("images/RectBtmBlue.png"),
+                    fit: BoxFit.cover),
+              ),
               child: Center(
                 child: InkWell(
                   onTap: () {

@@ -64,7 +64,10 @@ class _BottomHomeHSScreenState extends State<BottomHomeHSScreen> {
                                       physics: const BouncingScrollPhysics(),
                                       padding: const EdgeInsets.all(6),
                                       itemBuilder: (context, index) {
-                                        return HSDesQesCard(model: list[index]);
+                                        return HSDesQesCard(
+                                          model: list[index],
+                                          length: list.length,
+                                        );
                                       },
                                     );
                       }

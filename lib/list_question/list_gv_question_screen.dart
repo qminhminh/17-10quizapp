@@ -128,10 +128,12 @@ class _ListQuestionScreenState extends State<ListQuestionGVScreen> {
                               _isSearching ? searchlist.length : list.length,
                           itemBuilder: (context, index) {
                             return QuestionCardGVScreen(
-                                model: _isSearching
-                                    ? searchlist[index]
-                                    : list[index],
-                                index: index);
+                              model: _isSearching
+                                  ? searchlist[index]
+                                  : list[index],
+                              index: index,
+                              length: list.length,
+                            );
                           },
                         );
                     }

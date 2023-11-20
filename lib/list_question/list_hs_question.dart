@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:thutext/api/apis.dart';
@@ -10,8 +12,10 @@ import '../screen/hocsinh_screen/widget/list_hs_question_card.dart';
 
 class ListQuestionHSScreen extends StatefulWidget {
   // ignore: use_key_in_widget_constructors
-  const ListQuestionHSScreen({Key? key, required this.model});
+  const ListQuestionHSScreen(
+      {Key? key, required this.model, required this.length});
   final CreateDescriptMode model;
+  final int length;
 
   @override
   State<ListQuestionHSScreen> createState() => _ListQuestionScreenState();
@@ -19,7 +23,7 @@ class ListQuestionHSScreen extends StatefulWidget {
 
 class _ListQuestionScreenState extends State<ListQuestionHSScreen> {
   List<QuestionModel> list = [];
-  int totalScore = 0;
+  double totalScore = 0;
   List<ScoreModel> listScore = [];
   final CountdownController countdownController = CountdownController();
 
@@ -28,27 +32,27 @@ class _ListQuestionScreenState extends State<ListQuestionHSScreen> {
     super.initState();
     countdownController.startCountdown(int.parse(widget.model.timeQues));
 
-    countdownController.isRunning.listen((isRunning) {
-      if (isRunning &&
-          countdownController.minutes.value == 0 &&
-          countdownController.seconds.value == 0) {
-        APIs.SeeScoreGV(
-            '${countdownController.minutes.value}:${countdownController.seconds.value.toString().padLeft(2, '0')}',
-            totalScore,
-            widget.model.subjectcode);
+    // countdownController.isRunning.listen((isRunning) {
+    //   if (isRunning &&
+    //       countdownController.minutes.value == 0 &&
+    //       countdownController.seconds.value == 0) {
+    //     APIs.SeeScoreGV(
+    //         '${countdownController.minutes.value}:${countdownController.seconds.value.toString().padLeft(2, '0')}',
+    //         totalScore,
+    //         widget.model.subjectcode);
 
-        APIs.NoticeSeeScoreHS(
-            '${countdownController.minutes.value}:${countdownController.seconds.value.toString().padLeft(2, '0')}',
-            totalScore,
-            widget.model.subjectcode,
-            widget.model
-                .namesubject); // Replace '/home' with your home screen route
-        countdownController.stop();
-        Dialogs.showSnackBar(context,
-            'Bạn đã nộp bài thành công \n Điểm của bạn là $totalScore');
-      }
-    });
-    getDataFromFirestore();
+    //     APIs.NoticeSeeScoreHS(
+    //         '${countdownController.minutes.value}:${countdownController.seconds.value.toString().padLeft(2, '0')}',
+    //         totalScore,
+    //         widget.model.subjectcode,
+    //         widget.model
+    //             .namesubject); // Replace '/home' with your home screen route
+    //     countdownController.stop();
+    //     Dialogs.showSnackBar(context,
+    //         'Bạn đã nộp bài thành công \n Điểm của bạn là $totalScore');
+    //   }
+    // });
+    //getDataFromFirestore();
   }
 
   Future<void> getDataFromFirestore() async {
@@ -78,7 +82,9 @@ class _ListQuestionScreenState extends State<ListQuestionHSScreen> {
             'Time: ${countdownController.minutes.value}:${countdownController.seconds.value.toString().padLeft(2, '0')}')),
         actions: [
           TextButton(
-            onPressed: () {
+            onPressed: () async {
+              await getDataFromFirestore();
+
               // Handle the "Nộp bài" button click.
               APIs.SeeScoreGV(
                   '${countdownController.minutes.value}:${countdownController.seconds.value.toString().padLeft(2, '0')}',
@@ -92,7 +98,7 @@ class _ListQuestionScreenState extends State<ListQuestionHSScreen> {
                   widget.model.namesubject);
 
               Dialogs.showSnackBar(context,
-                  'Bạn đã nộp bài thành công \n Điểm của bạn là $totalScore');
+                  'Bạn đã nộp bài thành công \n Điểm của bạn là $totalScore  \n');
               Navigator.pop(context);
             },
             child: const Text('Nộp bài'),
@@ -123,7 +129,10 @@ class _ListQuestionScreenState extends State<ListQuestionHSScreen> {
                       itemCount: list.length,
                       itemBuilder: (context, index) {
                         return QuestionCardHSScreen(
-                            model: list[index], index: index);
+                          model: list[index],
+                          index: index,
+                          length: list.length,
+                        );
                       },
                     );
                 }

@@ -6,9 +6,13 @@ import '../../../models/giao_vien/create_question_model.dart';
 
 class QuestionCardGVScreen extends StatefulWidget {
   const QuestionCardGVScreen(
-      {super.key, required this.model, required this.index});
+      {super.key,
+      required this.model,
+      required this.index,
+      required this.length});
   final QuestionModel model;
   final int index;
+  final int length;
 
   @override
   State<QuestionCardGVScreen> createState() => _QuestionCardScreenState();
@@ -28,6 +32,8 @@ class _QuestionCardScreenState extends State<QuestionCardGVScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double a = 10 / widget.length;
+
     return Center(
       child: Card(
         elevation: 0.5,
@@ -144,7 +150,7 @@ class _QuestionCardScreenState extends State<QuestionCardGVScreen> {
                   selectedAnswer = value!;
                   if (selectedAnswer == widget.model.optioncorrect) {
                     count++;
-                    APIs.createScore(count, widget.model.subjectcode);
+                    APIs.createScore(a, widget.model.subjectcode);
 
                     print('Câu trả lời đúng!');
                   } else {
@@ -162,7 +168,7 @@ class _QuestionCardScreenState extends State<QuestionCardGVScreen> {
                   selectedAnswer = value!;
                   if (selectedAnswer == widget.model.optioncorrect) {
                     count++;
-                    APIs.createScore(count, widget.model.subjectcode);
+                    APIs.createScore(a, widget.model.subjectcode);
                     // ignore: duplicate_ignore
                   } else {
                     print('Câu trả lời sai.');
@@ -180,7 +186,7 @@ class _QuestionCardScreenState extends State<QuestionCardGVScreen> {
                   if (selectedAnswer == widget.model.optioncorrect) {
                     count++;
                     print('Điểm số: $count');
-                    APIs.createScore(count, widget.model.subjectcode);
+                    APIs.createScore(a, widget.model.subjectcode);
                     print('Câu trả lời đúng!');
                   } else {
                     print('Câu trả lời sai.');
@@ -198,7 +204,7 @@ class _QuestionCardScreenState extends State<QuestionCardGVScreen> {
                   if (selectedAnswer == widget.model.optioncorrect) {
                     count++;
                     print('Điểm số: $count');
-                    APIs.createScore(count, widget.model.subjectcode);
+                    APIs.createScore(a, widget.model.subjectcode);
 
                     print('Câu trả lời đúng!');
                   } else {

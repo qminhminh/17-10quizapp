@@ -9,7 +9,7 @@ class NoticeScoreHSModel {
     required this.date,
   });
   late final String id;
-  late final int score;
+  late final double score;
   late final String mahp;
   late final String email;
   late final String time;

@@ -31,8 +31,7 @@ class _CreateQuestionGVScreenState extends State<CreateQuestionGVScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-            'Create Question GV Screen'), // Đổi thành tiêu đề của màn hình
+        title: const Text('Tạo câu hỏi'), // Đổi thành tiêu đề của màn hình
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

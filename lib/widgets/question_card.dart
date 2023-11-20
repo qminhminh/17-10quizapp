@@ -1,12 +1,18 @@
+// ignore_for_file: unnecessary_brace_in_string_interps, avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:thutext/api/apis.dart';
 import '../models/giao_vien/create_question_model.dart';
 
 class QuestionCardScreen extends StatefulWidget {
   const QuestionCardScreen(
-      {super.key, required this.model, required this.index});
+      {super.key,
+      required this.model,
+      required this.index,
+      required this.length});
   final QuestionModel model;
   final int index;
+  final int length;
 
   @override
   State<QuestionCardScreen> createState() => _QuestionCardScreenState();
@@ -19,6 +25,7 @@ class _QuestionCardScreenState extends State<QuestionCardScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double a = 10 / widget.length;
     return Center(
       child: Card(
         elevation: 0.5,
@@ -45,8 +52,8 @@ class _QuestionCardScreenState extends State<QuestionCardScreen> {
                   selectedAnswer = value!;
                   if (selectedAnswer == widget.model.optioncorrect) {
                     count++;
-                    print('Điểm số: ${count}');
-                    APIs.createScore(count, widget.model.subjectcode);
+                    print('Điểm số: ${a}');
+                    APIs.createScore(a, widget.model.subjectcode);
 
                     print('Câu trả lời đúng!');
                   } else {
@@ -64,8 +71,8 @@ class _QuestionCardScreenState extends State<QuestionCardScreen> {
                   selectedAnswer = value!;
                   if (selectedAnswer == widget.model.optioncorrect) {
                     count++;
-                    print('Điểm số: ${count}');
-                    APIs.createScore(count, widget.model.subjectcode);
+                    print('Điểm số: ${a}');
+                    APIs.createScore(a, widget.model.subjectcode);
                     print('Câu trả lời đúng!');
                   } else {
                     print('Câu trả lời sai.');
@@ -82,8 +89,8 @@ class _QuestionCardScreenState extends State<QuestionCardScreen> {
                   selectedAnswer = value!;
                   if (selectedAnswer == widget.model.optioncorrect) {
                     count++;
-                    print('Điểm số: ${count}');
-                    APIs.createScore(count, widget.model.subjectcode);
+                    print('Điểm số: ${a}');
+                    APIs.createScore(a, widget.model.subjectcode);
                     print('Câu trả lời đúng!');
                   } else {
                     print('Câu trả lời sai.');
@@ -100,8 +107,8 @@ class _QuestionCardScreenState extends State<QuestionCardScreen> {
                   selectedAnswer = value!;
                   if (selectedAnswer == widget.model.optioncorrect) {
                     count++;
-                    print('Điểm số: ${count}');
-                    APIs.createScore(count, widget.model.subjectcode);
+                    print('Điểm số: ${a}');
+                    APIs.createScore(a, widget.model.subjectcode);
 
                     print('Câu trả lời đúng!');
                   } else {

@@ -8,7 +8,7 @@ class ScoreHSModel {
     required this.date,
   });
   late final String id;
-  late final int score;
+  late final double score;
   late final String mahp;
   late final String email;
   late final String time;
@@ -16,7 +16,7 @@ class ScoreHSModel {
 
   ScoreHSModel.fromJson(Map<String, dynamic> json) {
     id = json['id'] ?? '';
-    score = json['score'];
+    score = json['score'] ?? 0;
     mahp = json['mahp'] ?? '';
     email = json['email'] ?? '';
     time = json['time'] ?? '';

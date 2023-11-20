@@ -4,8 +4,9 @@ import '../../../list_question/list_hs_question.dart';
 import '../../../models/giao_vien/create_description_model.dart';
 
 class StartScreen extends StatefulWidget {
-  const StartScreen({super.key, required this.model});
+  const StartScreen({super.key, required this.model, required this.length});
   final CreateDescriptMode model;
+  final int length;
 
   @override
   State<StartScreen> createState() => _StartScreenState();
@@ -136,7 +137,9 @@ class _StartScreenState extends State<StartScreen> {
                                           MaterialPageRoute(
                                               builder: (_) =>
                                                   ListQuestionHSScreen(
-                                                      model: widget.model)));
+                                                    model: widget.model,
+                                                    length: widget.length,
+                                                  )));
                                     },
                                     child: const Text(
                                       'Bắt đầu',

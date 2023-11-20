@@ -47,7 +47,7 @@ class _SplashScreenState extends State<SplashScreen> {
             right: MediaQuery.of(context).size.width * .25,
             width: MediaQuery.of(context).size.width * .5,
             child: Image.asset(
-              'images/quizz.png',
+              'images/RectBtmBlue.png',
               width: 400,
               height: 400,
             ),
@@ -57,7 +57,7 @@ class _SplashScreenState extends State<SplashScreen> {
             width: MediaQuery.of(context).size.width * .8,
             child: const Center(
                 child: Text(
-              'Hãy đến với quizz app ❤ 💖',
+              ' ❤ 💖',
               style: TextStyle(
                   fontSize: 16, color: Colors.black, letterSpacing: .5),
               textAlign: TextAlign.center,
